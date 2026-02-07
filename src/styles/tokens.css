@@ -7,6 +7,9 @@
 	--accent: #dd7a2d;
 	--accent-strong: #f0a25c;
 	--accent-soft: #8f5222;
+	--tag-bg: #2f393f;
+	--tag-fg: #ffd9ba;
+	--tag-border: #7e5a3d;
 	--teal-soft: #496561;
 	--shadow: 0 14px 34px rgba(0, 0, 0, 0.36);
 	color-scheme: dark;
@@ -39,6 +42,9 @@
 	--accent: #d86a12;
 	--accent-strong: #a84e08;
 	--accent-soft: #f4b37c;
+	--tag-bg: #ffe4cd;
+	--tag-fg: #7f3807;
+	--tag-border: #ca8b5c;
 	--teal-soft: #86a9a5;
 	--shadow: 0 12px 30px rgba(22, 30, 33, 0.14);
 	color-scheme: light;

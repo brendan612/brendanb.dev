@@ -24,9 +24,9 @@
 }
 
 .active {
-	background: color-mix(in oklab, var(--accent-soft) 45%, white);
-	border-color: color-mix(in oklab, var(--accent) 60%, var(--line));
-	color: var(--accent-strong);
+	background: var(--tag-bg);
+	border-color: var(--tag-border);
+	color: var(--tag-fg);
 }
 
 .grid {
@@ -88,9 +88,9 @@
 	padding: 0.1rem 0.45rem;
 	border-radius: 999px;
 	font-size: 0.75rem;
-	color: var(--accent-strong);
-	background: color-mix(in oklab, var(--accent-soft) 35%, white);
-	border: 1px solid color-mix(in oklab, var(--accent) 40%, var(--line));
+	color: var(--tag-fg);
+	background: var(--tag-bg);
+	border: 1px solid var(--tag-border);
 }
 
 .linkRow {

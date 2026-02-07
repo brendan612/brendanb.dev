@@ -64,10 +64,10 @@ img {
 	gap: 0.35rem;
 	padding: 0.18rem 0.6rem;
 	border-radius: 999px;
-	border: 1px solid color-mix(in oklab, var(--accent) 45%, var(--line));
+	border: 1px solid var(--tag-border);
 	font-size: 0.78rem;
-	color: var(--accent-strong);
-	background: color-mix(in oklab, var(--accent-soft) 35%, var(--surface));
+	color: var(--tag-fg);
+	background: var(--tag-bg);
 }
 
 .muted {

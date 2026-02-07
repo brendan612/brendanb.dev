@@ -3,7 +3,7 @@ title: "brendanb.dev"
 summary: "A personal Astro + Bun portfolio built with a retro-tech citrus visual language and scalable content architecture."
 date: "2026-02-07"
 tags: ["Astro", "Bun", "Design System"]
-featured: true
+featured: false
 repoUrl: "https://github.com/brendan612/brendanb.dev"
 status: "in-progress"
 ---
