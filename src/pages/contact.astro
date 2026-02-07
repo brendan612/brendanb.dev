@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../consts/site';
+---
+
+<BaseLayout title={`${site.name} | Contact`}>
+	<section class="container section">
+		<h1 class="section-title">Contact</h1>
+		<p class="muted">
+			The fastest way to reach me is by email. You can also find me on GitHub.
+		</p>
+
+		<div class="card contact-grid">
+			<a href={`mailto:${site.email}`}>
+				<span>Email</span>
+				<strong>{site.email}</strong>
+			</a>
+			<a href={site.github} target="_blank" rel="noreferrer">
+				<span>GitHub</span>
+				<strong>@brendan612</strong>
+			</a>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.section {
+		padding-top: var(--space-12);
+	}
+
+	.contact-grid {
+		margin-top: var(--space-6);
+		padding: var(--space-6);
+		display: grid;
+		gap: 0.85rem;
+	}
+
+	.contact-grid a {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		flex-wrap: wrap;
+		align-items: center;
+		padding: 0.8rem 1rem;
+		border-radius: var(--radius-sm);
+		border: 1px solid var(--line);
+		background: color-mix(in oklab, var(--surface) 90%, white 10%);
+	}
+
+	.contact-grid a span {
+		color: var(--muted);
+	}
+
+	.contact-grid a strong {
+		font-family: var(--font-display);
+		font-size: 1.05rem;
+	}
+
+	.contact-grid a:hover,
+	.contact-grid a:focus-visible {
+		border-color: color-mix(in oklab, var(--accent) 55%, var(--line));
+		transform: translateY(-2px);
+	}
+</style>

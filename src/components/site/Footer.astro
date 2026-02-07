@@ -1,0 +1,47 @@
+---
+import { site } from '../../consts/site';
+---
+
+<footer class="footer">
+	<div class="container inner">
+		<p>
+			<span>{new Date().getFullYear()}</span>
+			<span>{site.name}</span>
+		</p>
+		<p>
+			<a href={site.github} target="_blank" rel="noreferrer">GitHub</a>
+			<a href={`mailto:${site.email}`}>Email</a>
+		</p>
+	</div>
+</footer>
+
+<style>
+	.footer {
+		margin-top: var(--space-24);
+		padding: var(--space-6) 0 var(--space-8);
+		border-top: 1px solid var(--line);
+	}
+
+	.inner,
+	.inner p {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+
+	.inner p {
+		margin: 0;
+	}
+
+	.inner a {
+		margin-left: 0.8rem;
+		color: var(--muted);
+	}
+
+	.inner a:hover,
+	.inner a:focus-visible {
+		color: var(--accent-strong);
+	}
+</style>

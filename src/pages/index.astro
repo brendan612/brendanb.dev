@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/home/Hero.astro';
+import FeaturedProjects from '../components/home/FeaturedProjects.astro';
+import { site } from '../consts/site';
+
+const featuredProjects = (await getCollection('projects'))
+	.filter((entry) => entry.data.featured)
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title={`${site.name} | Home`}>
+	<Hero />
+	<FeaturedProjects projects={featuredProjects} />
+
+	<section class="container contact-cta card">
+		<h2 class="section-title">Let's Build Something Useful</h2>
+		<p class="muted">
+			I enjoy shipping polished interfaces, design systems, and product-focused
+			web apps. If you want to connect, reach out any time.
+		</p>
+		<a class="contact-link" href="/contact">Contact Me</a>
+	</section>
+</BaseLayout>
+
+<style>
+	.contact-cta {
+		margin-top: var(--space-8);
+		padding: var(--space-8);
+	}
+
+	.contact-link {
+		display: inline-flex;
+		margin-top: var(--space-4);
+		font-weight: 600;
+		color: var(--accent-strong);
+	}
+</style>

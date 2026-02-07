@@ -1,0 +1,74 @@
+---
+import Header from '../components/site/Header.astro';
+import Footer from '../components/site/Footer.astro';
+import { site } from '../consts/site';
+import '../styles/global.css';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const {
+	title = `${site.name} | Portfolio`,
+	description = site.description,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<script is:inline>
+			(() => {
+				const key = 'theme';
+				const saved = localStorage.getItem(key);
+				const theme = saved === 'light' || saved === 'dark' ? saved : 'dark';
+				document.documentElement.dataset.theme = theme;
+			})();
+		</script>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<link rel="icon" href="/favicon.ico" />
+		<title>{title}</title>
+	</head>
+	<body>
+		<div class="bg-layer" aria-hidden="true"></div>
+		<Header />
+		<main>
+			<slot />
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.bg-layer {
+		position: fixed;
+		inset: 0;
+		pointer-events: none;
+		z-index: -1;
+		background:
+			radial-gradient(circle at 20% 10%, color-mix(in oklab, var(--accent-soft) 28%, transparent), transparent 52%),
+			radial-gradient(circle at 85% 85%, color-mix(in oklab, var(--teal-soft) 24%, transparent), transparent 45%),
+			linear-gradient(135deg, transparent 10%, color-mix(in oklab, var(--line) 18%, transparent) 10.2%, transparent 10.4%),
+			var(--bg);
+		background-size: auto, auto, 20px 20px, auto;
+	}
+
+	main {
+		animation: fade-up 380ms ease-out;
+	}
+
+	@keyframes fade-up {
+		from {
+			opacity: 0;
+			transform: translateY(8px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+</style>

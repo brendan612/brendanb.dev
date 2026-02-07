@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ProjectTagFilter from './ProjectTagFilter';
+
+interface Props {
+	projects: CollectionEntry<'projects'>[];
+}
+
+const { projects } = Astro.props;
+const normalized = projects.map((entry) => ({
+	title: entry.data.title,
+	summary: entry.data.summary,
+	tags: entry.data.tags,
+	status: entry.data.status,
+	repoUrl: entry.data.repoUrl,
+	liveUrl: entry.data.liveUrl,
+	href: `/projects/${entry.slug}/`,
+}));
+---
+
+<section class="container projects">
+	<h2 class="section-title">Featured Work</h2>
+	<ProjectTagFilter client:idle projects={normalized} />
+</section>
+
+<style>
+	.projects {
+		padding: var(--space-8) 0;
+	}
+</style>

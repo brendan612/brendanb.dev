@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../consts/site';
+---
+
+<BaseLayout title={`${site.name} | About`}>
+	<section class="container section">
+		<h1 class="section-title">About</h1>
+		<p>
+			I am {site.name}, a {site.role} living in {site.location}. I currently work
+			at {site.employer}.
+		</p>
+		<p class="muted">
+			I am {site.age} years old, grew up in {site.grewUp}, and enjoy projects
+			where design quality and engineering quality are treated as the same
+			problem.
+		</p>
+	</section>
+
+	<section class="container timeline card">
+		<h2>Current Focus</h2>
+		<ul>
+			<li>Building reliable internal and external software at {site.employer}.</li>
+			<li>Modern frontend architecture with Astro and lightweight interactivity.</li>
+			<li>Interfaces that balance performance, clarity, and personality.</li>
+		</ul>
+	</section>
+</BaseLayout>
+
+<style>
+	.section {
+		padding-top: var(--space-12);
+		max-width: 58ch;
+	}
+
+	.timeline {
+		margin-top: var(--space-8);
+		padding: var(--space-8);
+		max-width: 52rem;
+	}
+
+	h2 {
+		font-family: var(--font-display);
+		margin-top: 0;
+	}
+
+	ul {
+		margin-bottom: 0;
+		padding-left: 1.2rem;
+	}
+
+	li + li {
+		margin-top: 0.5rem;
+	}
+</style>

@@ -1,0 +1,90 @@
+---
+import { site } from '../../consts/site';
+---
+
+<section class="hero container">
+	<div class="signal">Based in {site.location}</div>
+	<h1>{site.name}</h1>
+	<p class="tagline">{site.tagline}</p>
+	<p class="intro">
+		{site.role} at {site.employer}. I focus on building modern web experiences
+		that feel intentional, perform well, and stay maintainable as they grow.
+	</p>
+	<div class="actions">
+		<a class="btn primary" href="/projects">View Projects</a>
+		<a class="btn ghost" href="/about">About Me</a>
+	</div>
+</section>
+
+<style>
+	.hero {
+		padding: var(--space-16) 0 var(--space-12);
+	}
+
+	.signal {
+		display: inline-flex;
+		gap: 0.4rem;
+		align-items: center;
+		padding: 0.2rem 0.65rem;
+		border: 1px solid var(--line);
+		border-radius: 999px;
+		color: var(--muted);
+		font-size: 0.84rem;
+	}
+
+	h1 {
+		font-family: var(--font-display);
+		font-size: clamp(2.1rem, 1.55rem + 3vw, 4.8rem);
+		line-height: 0.95;
+		margin: var(--space-4) 0 var(--space-3);
+		max-width: 14ch;
+	}
+
+	.tagline {
+		font-size: clamp(1.08rem, 1rem + 0.8vw, 1.6rem);
+		font-weight: 500;
+		max-width: 50ch;
+		margin: 0;
+	}
+
+	.intro {
+		max-width: 58ch;
+		color: var(--muted);
+		margin-top: var(--space-4);
+	}
+
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		margin-top: var(--space-6);
+	}
+
+	.btn {
+		padding: 0.62rem 1rem;
+		border-radius: var(--radius-sm);
+		font-weight: 600;
+		transition: transform 160ms ease, background-color 180ms ease;
+	}
+
+	.btn:hover,
+	.btn:focus-visible {
+		transform: translateY(-2px);
+	}
+
+	.primary {
+		background: var(--accent);
+		color: #fff;
+	}
+
+	.primary:hover,
+	.primary:focus-visible {
+		background: var(--accent-strong);
+	}
+
+	.ghost {
+		border: 1px solid var(--line);
+		color: var(--ink);
+		background: color-mix(in oklab, white 55%, var(--surface));
+	}
+</style>

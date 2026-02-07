@@ -1,0 +1,61 @@
+<button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light mode">
+	<span class="theme-dot" aria-hidden="true"></span>
+	<span data-theme-label>Light</span>
+</button>
+
+<script is:inline>
+	(() => {
+		const key = 'theme';
+		const button = document.querySelector('[data-theme-toggle]');
+		const label = document.querySelector('[data-theme-label]');
+		if (!button || !label) return;
+
+		const setLabel = (theme) => {
+			const isDark = theme !== 'light';
+			label.textContent = isDark ? 'Light' : 'Dark';
+			button.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+		};
+
+		const current = document.documentElement.dataset.theme || 'dark';
+		setLabel(current);
+
+		button.addEventListener('click', () => {
+			const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+			document.documentElement.dataset.theme = next;
+			localStorage.setItem(key, next);
+			setLabel(next);
+		});
+	})();
+</script>
+
+<style>
+	.theme-toggle {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.36rem 0.7rem;
+		background: color-mix(in oklab, var(--surface) 88%, white 12%);
+		border: 1px solid var(--line);
+		border-radius: 999px;
+		color: var(--ink);
+		font-family: var(--font-body);
+		font-size: 0.83rem;
+		cursor: pointer;
+		transition: transform 140ms ease, border-color 180ms ease, color 180ms ease;
+	}
+
+	.theme-toggle:hover,
+	.theme-toggle:focus-visible {
+		transform: translateY(-1px);
+		border-color: color-mix(in oklab, var(--accent) 55%, var(--line));
+		color: var(--accent-strong);
+	}
+
+	.theme-dot {
+		width: 0.52rem;
+		height: 0.52rem;
+		border-radius: 50%;
+		background: var(--accent);
+		box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 25%, transparent);
+	}
+</style>

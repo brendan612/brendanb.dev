@@ -1,0 +1,95 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../consts/site';
+
+const projects = (await getCollection('projects')).sort(
+	(a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout title={`${site.name} | Projects`} description="Portfolio projects and experiments by Brendan Bishop.">
+	<section class="container section">
+		<h1 class="section-title">Projects</h1>
+		<p class="muted intro">
+			A mix of production work, experiments, and archived concepts that shaped
+			how I build today.
+		</p>
+
+		<div class="grid">
+			{
+				projects.map((entry) => (
+					<article class="card project">
+						<div class="meta">
+							<span class="chip">{entry.data.tags[0] ?? 'Project'}</span>
+							<span class="muted">{entry.data.status.replace('-', ' ')}</span>
+						</div>
+						<h2>
+							<a href={`/projects/${entry.slug}/`}>{entry.data.title}</a>
+						</h2>
+						<p>{entry.data.summary}</p>
+						<p class="muted date">
+							{entry.data.date.toLocaleDateString('en-US', {
+								year: 'numeric',
+								month: 'long',
+								day: 'numeric',
+							})}
+						</p>
+					</article>
+				))
+			}
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.section {
+		padding-top: var(--space-12);
+	}
+
+	.intro {
+		max-width: 60ch;
+	}
+
+	.grid {
+		margin-top: var(--space-6);
+		display: grid;
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+		gap: 1rem;
+	}
+
+	.project {
+		grid-column: span 6;
+		padding: var(--space-6);
+	}
+
+	.project h2 {
+		font-family: var(--font-display);
+		font-size: 1.45rem;
+		line-height: 1.1;
+		margin: var(--space-3) 0;
+	}
+
+	.project h2 a:hover,
+	.project h2 a:focus-visible {
+		color: var(--accent-strong);
+	}
+
+	.meta {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.8rem;
+	}
+
+	.date {
+		margin-bottom: 0;
+		font-size: 0.85rem;
+	}
+
+	@media (max-width: 860px) {
+		.project {
+			grid-column: span 12;
+		}
+	}
+</style>
