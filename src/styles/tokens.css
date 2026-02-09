@@ -1,4 +1,11 @@
+/* ──────────────────────────────────────────
+   Design Tokens — brendanb.dev
+   Retro-tech citrus palette preserved.
+   Typography: Fraunces (display) + Manrope (body) + JetBrains Mono (mono)
+   ────────────────────────────────────────── */
+
 :root {
+	/* ── Palette (dark default) ── */
 	--bg: #151a1d;
 	--surface: #1d2428;
 	--ink: #e9e4db;
@@ -12,11 +19,15 @@
 	--tag-border: #7e5a3d;
 	--teal-soft: #496561;
 	--shadow: 0 14px 34px rgba(0, 0, 0, 0.36);
+	--glow: 0 0 20px rgba(221, 122, 45, 0.15), 0 0 60px rgba(221, 122, 45, 0.06);
 	color-scheme: dark;
 
-	--font-display: "Syne Variable", "Trebuchet MS", sans-serif;
-	--font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+	/* ── Typography ── */
+	--font-display: "Fraunces Variable", "Georgia", serif;
+	--font-body: "Manrope Variable", "Segoe UI", sans-serif;
+	--font-mono: "JetBrains Mono", "Cascadia Code", monospace;
 
+	/* ── Spacing scale ── */
 	--space-1: 0.25rem;
 	--space-2: 0.5rem;
 	--space-3: 0.75rem;
@@ -27,10 +38,20 @@
 	--space-16: 4rem;
 	--space-24: 6rem;
 
+	/* ── Radii ── */
 	--radius-sm: 0.375rem;
 	--radius-md: 0.75rem;
 	--radius-lg: 1.25rem;
+
+	/* ── Layout ── */
 	--content-width: 72rem;
+
+	/* ── Motion ── */
+	--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+	--ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+	--transition-fast: 140ms var(--ease-out-expo);
+	--transition-base: 220ms var(--ease-out-expo);
+	--transition-slow: 400ms var(--ease-out-quart);
 }
 
 :root[data-theme='light'] {
@@ -47,5 +68,6 @@
 	--tag-border: #ca8b5c;
 	--teal-soft: #86a9a5;
 	--shadow: 0 12px 30px rgba(22, 30, 33, 0.14);
+	--glow: 0 0 20px rgba(216, 106, 18, 0.12), 0 0 60px rgba(216, 106, 18, 0.05);
 	color-scheme: light;
 }

@@ -4,14 +4,25 @@ import { site } from '../../consts/site';
 
 <footer class="footer">
 	<div class="container inner">
-		<p>
-			<span>{new Date().getFullYear()}</span>
-			<span>{site.name}</span>
-		</p>
-		<p>
-			<a href={site.github} target="_blank" rel="noreferrer">GitHub</a>
-			<a href={`mailto:${site.email}`}>Email</a>
-		</p>
+		<div class="left">
+			<span class="copyright mono">
+				&copy; {new Date().getFullYear()} {site.name}
+			</span>
+			<span class="status">
+				<span class="status-dot" aria-hidden="true"></span>
+				<span class="mono muted">all systems operational</span>
+			</span>
+		</div>
+		<div class="right">
+			<a href={site.github} target="_blank" rel="noreferrer" class="footer-link">
+				<span class="mono">GitHub</span>
+				<span class="arrow" aria-hidden="true">&#8599;</span>
+			</a>
+			<a href={`mailto:${site.email}`} class="footer-link">
+				<span class="mono">Email</span>
+				<span class="arrow" aria-hidden="true">&#8599;</span>
+			</a>
+		</div>
 	</div>
 </footer>
 
@@ -19,29 +30,73 @@ import { site } from '../../consts/site';
 	.footer {
 		margin-top: var(--space-24);
 		padding: var(--space-6) 0 var(--space-8);
-		border-top: 1px solid var(--line);
+		border-top: 1px dashed var(--line);
 	}
 
-	.inner,
-	.inner p {
+	.inner {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: 1rem;
+		gap: 1.5rem;
 		flex-wrap: wrap;
 	}
 
-	.inner p {
-		margin: 0;
+	.left {
+		display: flex;
+		align-items: center;
+		gap: 1.5rem;
+		flex-wrap: wrap;
 	}
 
-	.inner a {
-		margin-left: 0.8rem;
+	.copyright {
+		font-size: 0.82rem;
 		color: var(--muted);
 	}
 
-	.inner a:hover,
-	.inner a:focus-visible {
+	.status {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		font-size: 0.75rem;
+	}
+
+	.status-dot {
+		width: 0.4rem;
+		height: 0.4rem;
+		border-radius: 50%;
+		background: #2d4;
+		box-shadow: 0 0 6px rgba(34, 221, 68, 0.4);
+	}
+
+	.right {
+		display: flex;
+		gap: 1rem;
+	}
+
+	.footer-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.25rem;
+		font-size: 0.82rem;
+		color: var(--muted);
+		transition: color var(--transition-fast);
+	}
+
+	.footer-link:hover,
+	.footer-link:focus-visible {
 		color: var(--accent-strong);
+	}
+
+	.arrow {
+		font-size: 0.9em;
+		opacity: 0;
+		transform: translateX(-4px);
+		transition: opacity var(--transition-fast), transform var(--transition-fast);
+	}
+
+	.footer-link:hover .arrow,
+	.footer-link:focus-visible .arrow {
+		opacity: 1;
+		transform: translateX(0);
 	}
 </style>

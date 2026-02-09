@@ -7,7 +7,18 @@ interface Props {
 const { title, subtitle } = Astro.props;
 ---
 
-<header>
+<header class="section-header">
 	<h2 class="section-title">{title}</h2>
-	{subtitle && <p class="muted">{subtitle}</p>}
+	{subtitle && <p class="muted subtitle">{subtitle}</p>}
 </header>
+
+<style>
+	.section-header {
+		margin-bottom: var(--space-4);
+	}
+
+	.subtitle {
+		max-width: 50ch;
+		line-height: 1.55;
+	}
+</style>

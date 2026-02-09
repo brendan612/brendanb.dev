@@ -5,19 +5,53 @@ import { site } from '../consts/site';
 
 <BaseLayout title={`${site.name} | Contact`}>
 	<section class="container section">
-		<h1 class="section-title">Contact</h1>
-		<p class="muted">
-			The fastest way to reach me is by email. You can also find me on GitHub.
-		</p>
+		<div class="contact-layout">
+			<div class="contact-text animate-fade-up animate-delay-1">
+				<h1 class="section-title">Contact</h1>
+				<p class="muted contact-intro">
+					The fastest way to reach me is by email.
+					You can also find me on GitHub.
+				</p>
+			</div>
 
-		<div class="card contact-grid">
-			<a href={`mailto:${site.email}`}>
-				<span>Email</span>
-				<strong>{site.email}</strong>
+			<div class="contact-terminal terminal animate-fade-up animate-delay-3">
+				<div class="terminal-bar">
+					<span class="terminal-dot"></span>
+					<span class="terminal-dot"></span>
+					<span class="terminal-dot"></span>
+					<span class="terminal-filename">reach-out.sh</span>
+				</div>
+				<div class="terminal-body">
+					<p><span class="prompt">$</span> echo $EMAIL</p>
+					<p class="output">{site.email}</p>
+					<p><span class="prompt">$</span> echo $GITHUB</p>
+					<p class="output">github.com/brendan612</p>
+					<p class="cursor-line"><span class="prompt">$</span> <span class="cursor">&#9608;</span></p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Contact cards -->
+		<div class="contact-cards animate-fade-up animate-delay-4">
+			<a href={`mailto:${site.email}`} class="contact-card">
+				<div class="card-left">
+					<span class="card-label mono">Email</span>
+					<span class="card-hint muted">Preferred contact method</span>
+				</div>
+				<div class="card-right">
+					<strong>{site.email}</strong>
+					<span class="card-arrow" aria-hidden="true">&#8599;</span>
+				</div>
 			</a>
-			<a href={site.github} target="_blank" rel="noreferrer">
-				<span>GitHub</span>
-				<strong>@brendan612</strong>
+			<a href={site.github} target="_blank" rel="noreferrer" class="contact-card">
+				<div class="card-left">
+					<span class="card-label mono">GitHub</span>
+					<span class="card-hint muted">Open source & projects</span>
+				</div>
+				<div class="card-right">
+					<strong>@brendan612</strong>
+					<span class="card-arrow" aria-hidden="true">&#8599;</span>
+				</div>
 			</a>
 		</div>
 	</section>
@@ -25,40 +59,109 @@ import { site } from '../consts/site';
 
 <style>
 	.section {
-		padding-top: var(--space-12);
+		padding-top: var(--space-16);
 	}
 
-	.contact-grid {
-		margin-top: var(--space-6);
-		padding: var(--space-6);
+	.contact-layout {
 		display: grid;
-		gap: 0.85rem;
+		grid-template-columns: 1fr 1fr;
+		gap: var(--space-8);
+		align-items: start;
+		margin-bottom: var(--space-8);
 	}
 
-	.contact-grid a {
+	.contact-intro {
+		max-width: 36ch;
+		line-height: 1.6;
+	}
+
+	.contact-terminal {
+		justify-self: end;
+		width: 100%;
+		max-width: 22rem;
+	}
+
+	/* ── Contact Cards ── */
+	.contact-cards {
+		display: grid;
+		gap: 0.75rem;
+	}
+
+	.contact-card {
 		display: flex;
 		justify-content: space-between;
-		gap: 1rem;
-		flex-wrap: wrap;
 		align-items: center;
-		padding: 0.8rem 1rem;
-		border-radius: var(--radius-sm);
+		gap: 1.5rem;
+		flex-wrap: wrap;
+		padding: 1rem 1.3rem;
 		border: 1px solid var(--line);
-		background: color-mix(in oklab, var(--surface) 90%, white 10%);
+		border-radius: var(--radius-md);
+		background: color-mix(in oklab, var(--surface) 90%, white 5%);
+		transition:
+			border-color var(--transition-base),
+			transform var(--transition-fast),
+			box-shadow var(--transition-base);
 	}
 
-	.contact-grid a span {
-		color: var(--muted);
+	.contact-card:hover,
+	.contact-card:focus-visible {
+		border-color: color-mix(in oklab, var(--accent) 45%, var(--line));
+		transform: translateY(-2px);
+		box-shadow: var(--glow);
 	}
 
-	.contact-grid a strong {
+	.card-left {
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+	}
+
+	.card-label {
+		font-size: 0.78rem;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: var(--accent);
+	}
+
+	.card-hint {
+		font-size: 0.8rem;
+	}
+
+	.card-right {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+	}
+
+	.card-right strong {
 		font-family: var(--font-display);
 		font-size: 1.05rem;
+		font-style: italic;
 	}
 
-	.contact-grid a:hover,
-	.contact-grid a:focus-visible {
-		border-color: color-mix(in oklab, var(--accent) 55%, var(--line));
-		transform: translateY(-2px);
+	.card-arrow {
+		font-size: 1rem;
+		color: var(--muted);
+		opacity: 0;
+		transform: translateX(-4px);
+		transition: opacity var(--transition-fast), transform var(--transition-fast);
+	}
+
+	.contact-card:hover .card-arrow,
+	.contact-card:focus-visible .card-arrow {
+		opacity: 1;
+		transform: translateX(0);
+	}
+
+	/* ── Responsive ── */
+	@media (max-width: 760px) {
+		.contact-layout {
+			grid-template-columns: 1fr;
+		}
+
+		.contact-terminal {
+			justify-self: start;
+			max-width: 100%;
+		}
 	}
 </style>

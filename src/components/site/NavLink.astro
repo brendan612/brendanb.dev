@@ -10,7 +10,8 @@ const isActive =
 	(href !== '/' && Astro.url.pathname.startsWith(`${href}/`));
 ---
 
-<a href={href} class={`link ${isActive ? 'active' : ''}`}>
+<a href={href} class:list={['link', { active: isActive }]}>
+	<span class="prefix" aria-hidden="true">//</span>
 	{label}
 </a>
 
@@ -19,29 +20,39 @@ const isActive =
 		position: relative;
 		display: inline-flex;
 		align-items: center;
-		padding: 0.25rem 0;
-		font-weight: 500;
+		gap: 0.15rem;
+		padding: 0.35rem 0.6rem;
+		font-family: var(--font-mono);
+		font-size: 0.82rem;
+		font-weight: 400;
+		color: var(--muted);
+		border-radius: var(--radius-sm);
+		transition: color var(--transition-fast), background var(--transition-fast);
 	}
 
-	.link::after {
-		content: '';
-		position: absolute;
-		left: 0;
-		bottom: -0.15rem;
-		width: 100%;
-		height: 2px;
-		background: var(--accent);
-		transform: scaleX(0);
-		transform-origin: left;
-		transition: transform 180ms ease;
+	.prefix {
+		color: transparent;
+		font-size: 0.78em;
+		transition: color var(--transition-fast);
+		user-select: none;
 	}
 
-	.link:hover::after,
-	.link:focus-visible::after,
-	.active::after {
-		transform: scaleX(1);
+	.link:hover,
+	.link:focus-visible {
+		color: var(--ink);
+		background: color-mix(in oklab, var(--surface) 60%, transparent);
 	}
+
+	.link:hover .prefix,
+	.link:focus-visible .prefix {
+		color: var(--accent);
+	}
+
 	.active {
 		color: var(--accent-strong);
+	}
+
+	.active .prefix {
+		color: var(--accent);
 	}
 </style>

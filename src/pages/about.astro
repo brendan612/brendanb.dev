@@ -4,52 +4,164 @@ import { site } from '../consts/site';
 ---
 
 <BaseLayout title={`${site.name} | About`}>
-	<section class="container section">
-		<h1 class="section-title">About</h1>
-		<p>
-			I am {site.name}, a {site.role} living in {site.location}. I currently work
-			at {site.employer}.
-		</p>
-		<p class="muted">
-			I am {site.age} years old, grew up in {site.grewUp}, and enjoy projects
-			where design quality and engineering quality are treated as the same
-			problem.
-		</p>
+	<section class="container about-hero">
+		<div class="about-grid">
+			<!-- Left: editorial intro -->
+			<div class="about-text animate-fade-up animate-delay-1">
+				<h1 class="section-title">About</h1>
+				<p class="about-lead">
+					I'm {site.name} — a {site.role} living in {site.location},
+					currently building software at <strong>{site.employer}</strong>.
+				</p>
+				<p class="muted about-body">
+					I'm {site.age} years old, grew up in {site.grewUp}, and enjoy projects
+					where design quality and engineering quality are treated as the same
+					problem. I care about interfaces that are fast, clear, and built to last.
+				</p>
+			</div>
+
+			<!-- Right: info terminal -->
+			<div class="about-terminal terminal animate-fade-up animate-delay-3">
+				<div class="terminal-bar">
+					<span class="terminal-dot"></span>
+					<span class="terminal-dot"></span>
+					<span class="terminal-dot"></span>
+					<span class="terminal-filename">about.json</span>
+				</div>
+				<div class="terminal-body">
+					<p class="output">{"{"}</p>
+					<p class="output">&nbsp;&nbsp;"name": "{site.name}",</p>
+					<p class="output">&nbsp;&nbsp;"age": {site.age},</p>
+					<p class="output">&nbsp;&nbsp;"location": "{site.location}",</p>
+					<p class="output">&nbsp;&nbsp;"role": "{site.role}",</p>
+					<p class="output">&nbsp;&nbsp;"employer": "{site.employer}",</p>
+					<p class="output">&nbsp;&nbsp;"origin": "{site.grewUp}"</p>
+					<p class="output">{"}"}</p>
+				</div>
+			</div>
+		</div>
 	</section>
 
-	<section class="container timeline card">
-		<h2>Current Focus</h2>
-		<ul>
-			<li>Building reliable internal and external software at {site.employer}.</li>
-			<li>Modern frontend architecture with Astro and lightweight interactivity.</li>
-			<li>Interfaces that balance performance, clarity, and personality.</li>
-		</ul>
+	<!-- Current Focus -->
+	<section class="container focus-section animate-fade-up animate-delay-4">
+		<h2 class="section-title">Current Focus</h2>
+		<div class="focus-grid">
+			<div class="focus-card">
+				<span class="focus-icon" aria-hidden="true">01</span>
+				<h3>Production Software</h3>
+				<p class="muted">Building reliable internal and external software at {site.employer}.</p>
+			</div>
+			<div class="focus-card">
+				<span class="focus-icon" aria-hidden="true">02</span>
+				<h3>Frontend Architecture</h3>
+				<p class="muted">Modern frontend architecture with Astro and lightweight interactivity.</p>
+			</div>
+			<div class="focus-card">
+				<span class="focus-icon" aria-hidden="true">03</span>
+				<h3>Design Engineering</h3>
+				<p class="muted">Interfaces that balance performance, clarity, and personality.</p>
+			</div>
+		</div>
 	</section>
 </BaseLayout>
 
 <style>
-	.section {
+	.about-hero {
+		padding-top: var(--space-16);
+	}
+
+	.about-grid {
+		display: grid;
+		grid-template-columns: 1.2fr 0.8fr;
+		gap: var(--space-8);
+		align-items: start;
+	}
+
+	.about-lead {
+		font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.3rem);
+		line-height: 1.55;
+		max-width: 48ch;
+	}
+
+	.about-lead strong {
+		color: var(--accent-strong);
+		font-weight: 600;
+	}
+
+	.about-body {
+		margin-top: var(--space-4);
+		max-width: 48ch;
+		line-height: 1.7;
+	}
+
+	.about-terminal {
+		justify-self: end;
+		width: 100%;
+		max-width: 22rem;
+	}
+
+	/* ── Focus Section ── */
+	.focus-section {
 		padding-top: var(--space-12);
-		max-width: 58ch;
 	}
 
-	.timeline {
-		margin-top: var(--space-8);
-		padding: var(--space-8);
-		max-width: 52rem;
+	.focus-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1rem;
 	}
 
-	h2 {
+	.focus-card {
+		padding: var(--space-6);
+		border: 1px solid var(--line);
+		border-radius: var(--radius-md);
+		background: color-mix(in oklab, var(--surface) 90%, white 5%);
+		transition: border-color var(--transition-base), transform var(--transition-base);
+	}
+
+	.focus-card:hover {
+		border-color: color-mix(in oklab, var(--accent) 30%, var(--line));
+		transform: translateY(-2px);
+	}
+
+	.focus-icon {
+		display: inline-block;
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		color: var(--accent);
+		margin-bottom: var(--space-3);
+		opacity: 0.7;
+	}
+
+	.focus-card h3 {
 		font-family: var(--font-display);
-		margin-top: 0;
+		font-size: 1.15rem;
+		font-weight: 600;
+		font-style: italic;
+		margin-bottom: var(--space-2);
+		letter-spacing: -0.01em;
 	}
 
-	ul {
-		margin-bottom: 0;
-		padding-left: 1.2rem;
+	.focus-card p {
+		font-size: 0.9rem;
+		line-height: 1.55;
 	}
 
-	li + li {
-		margin-top: 0.5rem;
+	/* ── Responsive ── */
+	@media (max-width: 900px) {
+		.about-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.about-terminal {
+			justify-self: start;
+			max-width: 100%;
+		}
+	}
+
+	@media (max-width: 700px) {
+		.focus-grid {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>

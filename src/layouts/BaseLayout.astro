@@ -34,7 +34,10 @@ const {
 		<title>{title}</title>
 	</head>
 	<body>
+		<!-- Background layers -->
 		<div class="bg-layer" aria-hidden="true"></div>
+		<div class="grain" aria-hidden="true"></div>
+
 		<Header />
 		<main>
 			<slot />
@@ -44,27 +47,54 @@ const {
 </html>
 
 <style>
+	/* ── Atmospheric background ── */
 	.bg-layer {
 		position: fixed;
 		inset: 0;
 		pointer-events: none;
-		z-index: -1;
+		z-index: -2;
 		background:
-			radial-gradient(circle at 20% 10%, color-mix(in oklab, var(--accent-soft) 28%, transparent), transparent 52%),
-			radial-gradient(circle at 85% 85%, color-mix(in oklab, var(--teal-soft) 24%, transparent), transparent 45%),
-			linear-gradient(135deg, transparent 10%, color-mix(in oklab, var(--line) 18%, transparent) 10.2%, transparent 10.4%),
+			/* Warm glow top-left */
+			radial-gradient(ellipse 60% 50% at 15% 8%, color-mix(in oklab, var(--accent-soft) 22%, transparent), transparent),
+			/* Teal glow bottom-right */
+			radial-gradient(ellipse 50% 45% at 88% 82%, color-mix(in oklab, var(--teal-soft) 18%, transparent), transparent),
+			/* Faint diagonal accent line */
+			linear-gradient(
+				145deg,
+				transparent 48.8%,
+				color-mix(in oklab, var(--accent) 6%, transparent) 49%,
+				color-mix(in oklab, var(--accent) 6%, transparent) 49.2%,
+				transparent 49.4%
+			),
+			/* Dot grid pattern */
+			radial-gradient(circle at center, color-mix(in oklab, var(--line) 35%, transparent) 0.5px, transparent 0.5px),
 			var(--bg);
-		background-size: auto, auto, 20px 20px, auto;
+		background-size: auto, auto, auto, 24px 24px, auto;
 	}
 
+	/* ── Film grain overlay ── */
+	.grain {
+		position: fixed;
+		inset: -50%;
+		width: 200%;
+		height: 200%;
+		pointer-events: none;
+		z-index: 9999;
+		opacity: 0.028;
+		mix-blend-mode: overlay;
+		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+		background-size: 200px 200px;
+	}
+
+	/* ── Main content entrance ── */
 	main {
-		animation: fade-up 380ms ease-out;
+		animation: mainReveal 500ms var(--ease-out-expo) both;
 	}
 
-	@keyframes fade-up {
+	@keyframes mainReveal {
 		from {
 			opacity: 0;
-			transform: translateY(8px);
+			transform: translateY(10px);
 		}
 		to {
 			opacity: 1;
