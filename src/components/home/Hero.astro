@@ -241,7 +241,8 @@ import { site } from '../../consts/site';
 		color: var(--accent);
 		opacity: 0;
 		transform: translateX(-6px);
-		transition: opacity var(--transition-fast), transform var(--transition-bounce);
+		/* Don't transition opacity — fights blink/selection and causes flicker */
+		transition: transform var(--transition-bounce);
 	}
 
 	.menu-label {
@@ -269,7 +270,6 @@ import { site } from '../../consts/site';
 	.menu-item.is-selected .menu-cursor {
 		opacity: 1;
 		transform: translateX(0);
-		animation: blink 1.1s steps(1) infinite;
 	}
 
 	.menu-item.is-selected .menu-label {
@@ -287,7 +287,7 @@ import { site } from '../../consts/site';
 	}
 
 	.hint-caret {
-		animation: blink 1s steps(1) infinite;
+		animation: blink 1.1s ease-in-out infinite;
 		color: var(--accent);
 	}
 

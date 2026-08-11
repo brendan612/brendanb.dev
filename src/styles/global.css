@@ -295,9 +295,17 @@ button {
 	to { opacity: 1; }
 }
 
+/* Terminal caret: equal on/off, no hard steps (avoids flashy stutter) */
 @keyframes blink {
-	0%, 55% { opacity: 1; }
-	56%, 100% { opacity: 0; }
+	0%, 45% { opacity: 1; }
+	50%, 95% { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+/* Soft status pulse — for labels like "open", not a hard blink */
+@keyframes softPulse {
+	0%, 100% { opacity: 1; }
+	50% { opacity: 0.45; }
 }
 
 @keyframes popIn {
@@ -370,7 +378,9 @@ button {
 	*,
 	*::before,
 	*::after {
+		/* iteration-count: 1 is required — 0.01ms + infinite = rapid flashing */
 		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
 		animation-delay: 0ms !important;
 		transition-duration: 0.01ms !important;
 		scroll-behavior: auto !important;
