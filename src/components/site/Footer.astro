@@ -1,27 +1,31 @@
 ---
 import { site } from '../../consts/site';
+
+const year = new Date().getFullYear();
 ---
 
 <footer class="footer">
 	<div class="container inner">
 		<div class="left">
-			<span class="copyright mono">
-				&copy; {new Date().getFullYear()} {site.name}
+			<span class="save-indicator">
+				<span class="save-dot" aria-hidden="true"></span>
+				<span class="hud-label">game saved — progress is safe</span>
 			</span>
-			<span class="status">
-				<span class="status-dot" aria-hidden="true"></span>
-				<span class="mono muted">all systems operational</span>
-			</span>
+			<span class="copyright hud-label">&copy; {year} {site.name}</span>
 		</div>
+
 		<div class="right">
 			<a href={site.github} target="_blank" rel="noreferrer" class="footer-link">
-				<span class="mono">GitHub</span>
-				<span class="arrow" aria-hidden="true">&#8599;</span>
+				<span class="hud-label">GitHub</span>
+				<span class="arrow" aria-hidden="true">↗</span>
 			</a>
 			<a href={`mailto:${site.email}`} class="footer-link">
-				<span class="mono">Email</span>
-				<span class="arrow" aria-hidden="true">&#8599;</span>
+				<span class="hud-label">Email</span>
+				<span class="arrow" aria-hidden="true">↗</span>
 			</a>
+			<span class="credits hud-label" title="↑ ↑ ↓ ↓ ← → ← → B A">
+				psst — cheat codes work here
+			</span>
 		</div>
 	</div>
 </footer>
@@ -30,7 +34,7 @@ import { site } from '../../consts/site';
 	.footer {
 		margin-top: var(--space-24);
 		padding: var(--space-6) 0 var(--space-8);
-		border-top: 1px dashed var(--line);
+		border-top: var(--border-w) solid var(--line);
 	}
 
 	.inner {
@@ -48,38 +52,46 @@ import { site } from '../../consts/site';
 		flex-wrap: wrap;
 	}
 
-	.copyright {
-		font-size: 0.82rem;
-		color: var(--muted);
-	}
-
-	.status {
+	.save-indicator {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.4rem;
-		font-size: 0.75rem;
+		gap: 0.5rem;
 	}
 
-	.status-dot {
-		width: 0.4rem;
-		height: 0.4rem;
-		border-radius: 50%;
-		background: #2d4;
-		box-shadow: 0 0 6px rgba(34, 221, 68, 0.4);
+	.save-dot {
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: 2px;
+		background: var(--ok);
+		animation: savePulse 2.4s ease-in-out infinite;
+	}
+
+	@keyframes savePulse {
+		0%, 100% { opacity: 1; box-shadow: 0 0 6px color-mix(in oklab, var(--ok) 55%, transparent); }
+		50% { opacity: 0.4; box-shadow: none; }
+	}
+
+	.copyright {
+		color: var(--muted-soft);
 	}
 
 	.right {
 		display: flex;
-		gap: 1rem;
+		align-items: center;
+		gap: 1.1rem;
+		flex-wrap: wrap;
 	}
 
 	.footer-link {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.25rem;
-		font-size: 0.82rem;
+		gap: 0.3rem;
 		color: var(--muted);
 		transition: color var(--transition-fast);
+	}
+
+	.footer-link .hud-label {
+		color: inherit;
 	}
 
 	.footer-link:hover,
@@ -88,7 +100,7 @@ import { site } from '../../consts/site';
 	}
 
 	.arrow {
-		font-size: 0.9em;
+		font-size: 0.75rem;
 		opacity: 0;
 		transform: translateX(-4px);
 		transition: opacity var(--transition-fast), transform var(--transition-fast);
@@ -98,5 +110,17 @@ import { site } from '../../consts/site';
 	.footer-link:focus-visible .arrow {
 		opacity: 1;
 		transform: translateX(0);
+	}
+
+	.credits {
+		color: var(--muted-soft);
+		opacity: 0.65;
+		cursor: help;
+	}
+
+	@media (max-width: 720px) {
+		.credits {
+			display: none;
+		}
 	}
 </style>

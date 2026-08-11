@@ -15,6 +15,12 @@ type Props = {
 	projects: Project[];
 };
 
+const QUEST_LABEL: Record<Project['status'], string> = {
+	live: 'quest complete',
+	'in-progress': 'quest active',
+	archived: 'quest retired',
+};
+
 export default function ProjectTagFilter({ projects }: Props) {
 	const [activeTag, setActiveTag] = useState<string>('All');
 	const tags = useMemo(
@@ -29,8 +35,11 @@ export default function ProjectTagFilter({ projects }: Props) {
 
 	return (
 		<div>
-			{/* Filter toolbar */}
-			<div className={styles.toolbar} role="group" aria-label="Filter featured projects by tag">
+			{/* Tag filter */}
+			<div className={styles.toolbar} role="group" aria-label="Filter projects by tag">
+				<span className={styles.toolbarLabel} aria-hidden="true">
+					Filter:
+				</span>
 				{tags.map((tag) => {
 					const isActive = tag === activeTag;
 					return (
@@ -47,37 +56,39 @@ export default function ProjectTagFilter({ projects }: Props) {
 				})}
 			</div>
 
-			{/* Project grid */}
+			{/* Quest cards */}
 			{filtered.length > 0 ? (
 				<div className={styles.grid}>
-					{filtered.map((project, i) => (
-						<article
-							key={project.title}
-							className={`${styles.card} ${i === 0 ? styles.cardLarge : ''}`}
-						>
-							{/* Terminal-style window bar */}
-							<div className={styles.cardBar}>
-								<div className={styles.cardDots}>
-									<span className={styles.dot} />
-									<span className={styles.dot} />
-									<span className={styles.dot} />
-								</div>
-								<span className={styles.cardFilename}>
-									{project.title.toLowerCase().replace(/\s+/g, '-')}.md
-								</span>
-							</div>
+					{filtered.map((project, i) => {
+						const isLarge = i === 0;
+						return (
+							<article
+								key={project.title}
+								className={`${styles.card} ${isLarge ? styles.cardLarge : ''}`}
+							>
+								{isLarge && (
+									<span className={styles.featuredTab} aria-hidden="true">
+										★ featured
+									</span>
+								)}
 
-							<div className={styles.cardBody}>
-								<div className={styles.meta}>
-									<span className={styles.statusBadge} data-status={project.status}>
-										{project.status.replace('-', ' ')}
+								<div className={styles.head}>
+									<span className={styles.questType}>side quest</span>
+									<span
+										className={styles.statusBadge}
+										data-status={project.status}
+									>
+										{QUEST_LABEL[project.status]}
 									</span>
 								</div>
 
 								<h3 className={styles.title}>{project.title}</h3>
 								<p className={styles.summary}>{project.summary}</p>
 
-								<div className={styles.tags}>
+								<div className={styles.lootRow}>
+									<span className={styles.lootLabel} aria-hidden="true">
+										Built with
+									</span>
 									{project.tags.map((tag) => (
 										<span className={styles.tag} key={`${project.title}-${tag}`}>
 											{tag}
@@ -86,27 +97,40 @@ export default function ProjectTagFilter({ projects }: Props) {
 								</div>
 
 								<div className={styles.linkRow}>
-									<a className={styles.link} href={project.href}>
-										Read more →
+									<a
+										className={`${styles.link} ${styles.linkPrimary}`}
+										href={project.href}
+									>
+										Open quest
 									</a>
 									{project.liveUrl && (
-										<a className={styles.link} href={project.liveUrl} target="_blank" rel="noreferrer">
-											Live ↗
+										<a
+											className={styles.link}
+											href={project.liveUrl}
+											target="_blank"
+											rel="noreferrer"
+										>
+											Play live
 										</a>
 									)}
 									{project.repoUrl && (
-										<a className={styles.link} href={project.repoUrl} target="_blank" rel="noreferrer">
-											Code ↗
+										<a
+											className={styles.link}
+											href={project.repoUrl}
+											target="_blank"
+											rel="noreferrer"
+										>
+											Source
 										</a>
 									)}
 								</div>
-							</div>
-						</article>
-					))}
+							</article>
+						);
+					})}
 				</div>
 			) : (
 				<div className={styles.empty}>
-					<span className={styles.emptyPrompt}>$</span> No projects match this tag yet.
+					No quests tagged “{activeTag}” yet — pick another filter.
 				</div>
 			)}
 		</div>

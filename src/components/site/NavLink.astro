@@ -10,9 +10,9 @@ const isActive =
 	(href !== '/' && Astro.url.pathname.startsWith(`${href}/`));
 ---
 
-<a href={href} class:list={['link', { active: isActive }]}>
-	<span class="prefix" aria-hidden="true">//</span>
-	{label}
+<a href={href} class:list={['link', { active: isActive }]} aria-current={isActive ? 'page' : undefined}>
+	<span class="cursor" aria-hidden="true">▶</span>
+	<span class="label">{label}</span>
 </a>
 
 <style>
@@ -20,39 +20,44 @@ const isActive =
 		position: relative;
 		display: inline-flex;
 		align-items: center;
-		gap: 0.15rem;
-		padding: 0.35rem 0.6rem;
-		font-family: var(--font-mono);
-		font-size: 0.82rem;
-		font-weight: 400;
+		gap: 0.35rem;
+		padding: 0.45rem 0.7rem;
+		font-family: var(--font-hud);
+		font-size: 0.68rem;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
 		color: var(--muted);
-		border-radius: var(--radius-sm);
+		border-radius: var(--radius-xs);
 		transition: color var(--transition-fast), background var(--transition-fast);
 	}
 
-	.prefix {
-		color: transparent;
-		font-size: 0.78em;
-		transition: color var(--transition-fast);
-		user-select: none;
+	/* Selector cursor — slides in like a menu pick */
+	.cursor {
+		font-size: 0.55em;
+		color: var(--accent);
+		opacity: 0;
+		transform: translateX(-4px);
+		transition: opacity var(--transition-fast), transform var(--transition-bounce);
 	}
 
 	.link:hover,
 	.link:focus-visible {
-		color: var(--ink);
-		background: color-mix(in oklab, var(--surface) 60%, transparent);
+		color: var(--ink-strong);
+		background: color-mix(in oklab, var(--surface) 70%, transparent);
 	}
 
-	.link:hover .prefix,
-	.link:focus-visible .prefix {
-		color: var(--accent);
+	.link:hover .cursor,
+	.link:focus-visible .cursor {
+		opacity: 1;
+		transform: translateX(0);
 	}
 
 	.active {
-		color: var(--accent-strong);
+		color: var(--ink-strong);
 	}
 
-	.active .prefix {
-		color: var(--accent);
+	.active .cursor {
+		opacity: 1;
+		transform: translateX(0);
 	}
 </style>

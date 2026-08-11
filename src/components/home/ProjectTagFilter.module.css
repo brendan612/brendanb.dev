@@ -2,216 +2,292 @@
 .toolbar {
 	display: flex;
 	flex-wrap: wrap;
+	align-items: center;
 	gap: 0.4rem;
-	margin-bottom: var(--space-6);
+	margin-bottom: var(--space-8);
+}
+
+.toolbarLabel {
+	font-family: var(--font-hud);
+	font-size: 0.6rem;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: var(--muted-soft);
+	margin-right: 0.4rem;
 }
 
 .filterBtn {
-	border: 1px solid var(--line);
-	border-radius: var(--radius-sm);
-	background: color-mix(in oklab, var(--surface) 60%, transparent);
+	border: var(--border-w) solid var(--line);
+	border-radius: 999px;
+	background: transparent;
 	color: var(--muted);
-	padding: 0.28rem 0.72rem;
-	font-family: var(--font-mono);
-	font-size: 0.78rem;
+	padding: 0.32rem 0.8rem;
+	font-family: var(--font-hud);
+	font-size: 0.62rem;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
 	cursor: pointer;
-	transition: all 180ms var(--ease-out-expo);
+	transition:
+		color var(--transition-fast),
+		border-color var(--transition-fast),
+		background var(--transition-fast),
+		transform var(--transition-bounce);
 }
 
 .filterBtn:hover {
 	color: var(--ink);
-	border-color: color-mix(in oklab, var(--accent) 40%, var(--line));
-	background: color-mix(in oklab, var(--surface) 80%, transparent);
+	border-color: color-mix(in oklab, var(--accent) 40%, var(--line-strong));
 	transform: translateY(-1px);
 }
 
 .active {
-	background: var(--tag-bg);
-	border-color: var(--tag-border);
-	color: var(--tag-fg);
+	background: var(--accent);
+	border-color: var(--accent);
+	color: var(--accent-ink);
+	box-shadow: 0 3px 0 var(--accent-deep);
 }
 
-/* ── Project Grid ── */
+.active:hover {
+	color: var(--accent-ink);
+	background: var(--accent-strong);
+	border-color: var(--accent-strong);
+}
+
+/* ── Quest Grid ── */
 .grid {
 	display: grid;
 	grid-template-columns: repeat(12, minmax(0, 1fr));
-	gap: 1rem;
+	gap: 1.1rem;
 }
 
-/* ── Card ── */
+/* ── Quest card ── */
 .card {
+	position: relative;
 	grid-column: span 6;
-	border: 1px solid var(--line);
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	padding: 1.35rem 1.45rem 1.4rem;
+	border: var(--border-w) solid var(--line-strong);
 	border-radius: var(--radius-md);
-	background: color-mix(in oklab, var(--surface) 95%, white 5%);
-	box-shadow: var(--shadow);
-	overflow: hidden;
+	background: color-mix(in oklab, var(--bg-elev) 94%, transparent);
+	box-shadow: 0 var(--chunk) 0 var(--chunk-shadow);
 	transition:
-		transform 280ms var(--ease-out-expo),
-		box-shadow 280ms var(--ease-out-expo),
-		border-color 280ms var(--ease-out-expo);
+		transform var(--transition-bounce),
+		border-color var(--transition-fast),
+		box-shadow var(--transition-bounce);
+	overflow: hidden;
 }
 
 .card:hover {
 	transform: translateY(-4px);
-	box-shadow: var(--shadow), var(--glow);
-	border-color: color-mix(in oklab, var(--accent) 30%, var(--line));
+	border-color: color-mix(in oklab, var(--accent) 50%, var(--line-strong));
+	box-shadow: 0 calc(var(--chunk) + 3px) 0 var(--chunk-shadow), var(--shadow-soft);
 }
 
 .cardLarge {
 	grid-column: span 12;
 }
 
-/* ── Card Window Bar ── */
-.cardBar {
+/* Featured banner corner */
+.featuredTab {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 0.3rem 0.75rem;
+	border-bottom-left-radius: var(--radius-sm);
+	background: var(--accent);
+	color: var(--accent-ink);
+	font-family: var(--font-hud);
+	font-size: 0.56rem;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+/* ── Head row: quest type + status ── */
+.head {
 	display: flex;
 	align-items: center;
-	gap: 0.5rem;
-	padding: 0.5rem 0.85rem;
-	background: color-mix(in oklab, var(--surface) 70%, black 30%);
-	border-bottom: 1px solid var(--line);
+	justify-content: space-between;
+	gap: 1rem;
 }
 
-.cardDots {
-	display: flex;
-	gap: 0.35rem;
-}
-
-.dot {
-	width: 0.42rem;
-	height: 0.42rem;
-	border-radius: 50%;
-	background: var(--line);
-	transition: background 200ms ease;
-}
-
-.card:hover .dot:nth-child(1) { background: #e35; }
-.card:hover .dot:nth-child(2) { background: #ea0; }
-.card:hover .dot:nth-child(3) { background: #2d4; }
-
-.cardFilename {
-	font-family: var(--font-mono);
-	font-size: 0.7rem;
-	color: var(--muted);
-	opacity: 0.7;
-}
-
-/* ── Card Body ── */
-.cardBody {
-	padding: 1.1rem 1.2rem 1.3rem;
-}
-
-.meta {
-	display: flex;
-	align-items: center;
-	gap: 0.75rem;
-	flex-wrap: wrap;
-	margin-bottom: 0.4rem;
+.questType {
+	font-family: var(--font-hud);
+	font-size: 0.6rem;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--muted-soft);
 }
 
 .statusBadge {
 	display: inline-flex;
 	align-items: center;
-	gap: 0.35rem;
-	font-family: var(--font-mono);
-	font-size: 0.7rem;
-	text-transform: capitalize;
+	gap: 0.4rem;
+	font-family: var(--font-hud);
+	font-size: 0.62rem;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
 	color: var(--muted);
-	letter-spacing: 0.02em;
 }
 
 .statusBadge::before {
 	content: '';
-	width: 0.35rem;
-	height: 0.35rem;
-	border-radius: 50%;
+	width: 0.5rem;
+	height: 0.5rem;
+	border-radius: 2px;
 	background: var(--muted);
 }
 
+.statusBadge[data-status="live"] {
+	color: var(--ok);
+}
+
 .statusBadge[data-status="live"]::before {
-	background: #2d4;
-	box-shadow: 0 0 4px rgba(34, 221, 68, 0.4);
+	background: var(--ok);
+	box-shadow: 0 0 8px color-mix(in oklab, var(--ok) 55%, transparent);
+}
+
+.statusBadge[data-status="in-progress"] {
+	color: var(--accent-strong);
 }
 
 .statusBadge[data-status="in-progress"]::before {
 	background: var(--accent);
-	box-shadow: 0 0 4px rgba(221, 122, 45, 0.4);
+	box-shadow: 0 0 8px color-mix(in oklab, var(--accent) 55%, transparent);
 }
 
+/* ── Title ── */
 .title {
+	display: flex;
+	align-items: baseline;
+	gap: 0.55rem;
 	font-family: var(--font-display);
-	font-size: 1.35rem;
-	font-weight: 600;
-	font-style: italic;
-	margin: 0.3rem 0 0.35rem;
-	line-height: 1.15;
-	letter-spacing: -0.01em;
+	font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.8rem);
+	font-weight: 400;
+	line-height: 1.05;
+	color: var(--ink-strong);
+	margin: 0;
+}
+
+.title::before {
+	content: "▶";
+	font-size: 0.55em;
+	color: var(--accent);
+	opacity: 0;
+	transform: translateX(-6px);
+	transition: opacity var(--transition-fast), transform var(--transition-bounce);
+	flex-shrink: 0;
+}
+
+.card:hover .title::before {
+	opacity: 1;
+	transform: translateX(0);
 }
 
 .cardLarge .title {
-	font-size: 1.6rem;
+	font-size: clamp(1.7rem, 1.3rem + 1.6vw, 2.6rem);
 }
 
 .summary {
 	color: var(--muted);
-	font-size: 0.9rem;
+	font-size: 0.92rem;
+	line-height: 1.6;
+	max-width: 62ch;
 	margin: 0;
-	line-height: 1.5;
 }
 
-/* ── Tags ── */
-.tags {
+/* ── Loot row ── */
+.lootRow {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0.35rem;
-	margin-top: 0.85rem;
+	align-items: center;
+	gap: 0.3rem;
+	margin-top: 0.2rem;
+}
+
+.lootLabel {
+	font-family: var(--font-hud);
+	font-size: 0.56rem;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--muted-soft);
+	margin-right: 0.3rem;
 }
 
 .tag {
 	display: inline-flex;
-	padding: 0.12rem 0.5rem;
+	padding: 0.16rem 0.55rem;
 	border-radius: 999px;
-	font-family: var(--font-mono);
-	font-size: 0.68rem;
-	letter-spacing: 0.01em;
+	font-family: var(--font-hud);
+	font-size: 0.56rem;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
 	color: var(--tag-fg);
 	background: var(--tag-bg);
-	border: 1px solid var(--tag-border);
+	border: var(--border-w) solid var(--tag-border);
 }
 
 /* ── Link Row ── */
 .linkRow {
-	margin-top: 1rem;
+	margin-top: auto;
 	display: flex;
-	gap: 0.85rem;
+	gap: 1rem;
+	flex-wrap: wrap;
+	border-top: var(--border-w) solid color-mix(in oklab, var(--line) 85%, transparent);
+	padding-top: 0.85rem;
 }
 
 .link {
-	font-family: var(--font-mono);
-	font-size: 0.8rem;
-	font-weight: 500;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3rem;
+	font-family: var(--font-hud);
+	font-size: 0.64rem;
+	font-weight: 700;
+	color: var(--ink);
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	transition: color 180ms ease;
+}
+
+.link::after {
+	content: "↗";
+	display: inline-block;
+	transition: transform 180ms ease;
+}
+
+.linkPrimary {
 	color: var(--accent-strong);
-	transition: color 160ms ease;
+}
+
+.linkPrimary::after {
+	content: "→";
 }
 
 .link:hover {
 	color: var(--accent);
 }
 
-/* ── Empty state ── */
-.empty {
-	padding: 1.2rem 1.4rem;
-	border: 1px dashed var(--line);
-	border-radius: var(--radius-md);
-	font-family: var(--font-mono);
-	font-size: 0.88rem;
-	color: var(--muted);
+.link:hover::after {
+	transform: translate(2px, -2px);
 }
 
-.emptyPrompt {
-	color: var(--accent);
-	margin-right: 0.4rem;
-	font-weight: 500;
+.linkPrimary:hover::after {
+	transform: translate(3px, 0);
+}
+
+/* ── Empty state ── */
+.empty {
+	padding: 2rem 1.4rem;
+	border: var(--border-w) dashed var(--line-strong);
+	border-radius: var(--radius-md);
+	text-align: center;
+	font-family: var(--font-hud);
+	font-size: 0.72rem;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--muted);
 }
 
 /* ── Responsive ── */

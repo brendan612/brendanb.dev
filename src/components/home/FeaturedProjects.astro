@@ -18,13 +18,40 @@ const normalized = projects.map((entry) => ({
 }));
 ---
 
-<section class="container projects">
-	<h2 class="section-title">Featured Work</h2>
+<section class="container projects reveal">
+	<header class="head">
+		<p class="hud-label is-accent">Quest log</p>
+		<h2 class="section-title">Side <span class="accent">quests</span></h2>
+		<p class="lede">
+			The after-hours builds — games, tools, and experiments. The main quest
+			(day job) lives on the <a class="head-link" href="/about">character sheet</a>.
+		</p>
+	</header>
 	<ProjectTagFilter client:idle projects={normalized} />
 </section>
 
 <style>
 	.projects {
-		padding: var(--space-12) 0 var(--space-8);
+		padding: var(--space-16) 0 var(--space-8);
+	}
+
+	.head {
+		display: flex;
+		flex-direction: column;
+		gap: 0.55rem;
+		margin-bottom: var(--space-8);
+	}
+
+	.head-link {
+		color: var(--accent-strong);
+		text-decoration: underline;
+		text-decoration-thickness: 2px;
+		text-decoration-color: color-mix(in oklab, var(--accent) 40%, transparent);
+		text-underline-offset: 0.2em;
+		transition: text-decoration-color var(--transition-fast);
+	}
+
+	.head-link:hover {
+		text-decoration-color: var(--accent);
 	}
 </style>

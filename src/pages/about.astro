@@ -4,163 +4,290 @@ import { site } from '../consts/site';
 ---
 
 <BaseLayout title={`${site.name} | About`}>
-	<section class="container about-hero">
-		<div class="about-grid">
-			<!-- Left: editorial intro -->
-			<div class="about-text animate-fade-up animate-delay-1">
-				<h1 class="section-title">About</h1>
-				<p class="about-lead">
-					I'm {site.name} — a {site.role} living in {site.location},
-					currently building software at <strong>{site.employer}</strong>.
-				</p>
-				<p class="muted about-body">
-					I'm {site.age} years old, grew up in {site.grewUp}, and enjoy projects
-					where design quality and engineering quality are treated as the same
-					problem. I care about interfaces that are fast, clear, and built to last.
-				</p>
-			</div>
+	<section class="container about-section">
+		<header class="page-head animate-fade-up animate-delay-1">
+			<p class="hud-label is-accent">Character sheet</p>
+			<h1 class="section-title">
+				Meet the <span class="accent">player</span>
+			</h1>
+		</header>
 
-			<!-- Right: info terminal -->
-			<div class="about-terminal terminal animate-fade-up animate-delay-3">
-				<div class="terminal-bar">
-					<span class="terminal-dot"></span>
-					<span class="terminal-dot"></span>
-					<span class="terminal-dot"></span>
-					<span class="terminal-filename">about.json</span>
+		<div class="sheet">
+			<!-- Character card -->
+			<aside class="char panel animate-fade-up animate-delay-2" aria-label="Character stats">
+				<div class="char-portrait" aria-hidden="true">
+					<svg width="72" height="72" viewBox="0 0 16 16">
+						<!-- pixel character -->
+						<rect x="5" y="1" width="6" height="2" fill="#7a5138"/>
+						<rect x="4" y="2" width="8" height="2" fill="#7a5138"/>
+						<rect x="4" y="4" width="8" height="4" fill="#e8b48c"/>
+						<rect x="5" y="5" width="2" height="2" fill="#1a1c1d"/>
+						<rect x="9" y="5" width="2" height="2" fill="#1a1c1d"/>
+						<rect x="3" y="8" width="10" height="5" fill="var(--accent)"/>
+						<rect x="3" y="8" width="2" height="4" fill="var(--accent-deep)"/>
+						<rect x="11" y="8" width="2" height="4" fill="var(--accent-deep)"/>
+						<rect x="5" y="13" width="2" height="2" fill="#2c3236"/>
+						<rect x="9" y="13" width="2" height="2" fill="#2c3236"/>
+					</svg>
 				</div>
-				<div class="terminal-body">
-					<p class="output">{"{"}</p>
-					<p class="output">&nbsp;&nbsp;"name": "{site.name}",</p>
-					<p class="output">&nbsp;&nbsp;"age": {site.age},</p>
-					<p class="output">&nbsp;&nbsp;"location": "{site.location}",</p>
-					<p class="output">&nbsp;&nbsp;"role": "{site.role}",</p>
-					<p class="output">&nbsp;&nbsp;"employer": "{site.employer}",</p>
-					<p class="output">&nbsp;&nbsp;"origin": "{site.grewUp}"</p>
-					<p class="output">{"}"}</p>
-				</div>
+
+				<h2 class="char-name">{site.name}</h2>
+				<p class="char-class hud-label is-accent">Class: Engineer</p>
+
+				<dl class="char-stats">
+					<div class="stat">
+						<dt class="hud-label">Level</dt>
+						<dd>{site.age}</dd>
+					</div>
+					<div class="stat">
+						<dt class="hud-label">Guild</dt>
+						<dd>{site.employer}</dd>
+					</div>
+					<div class="stat">
+						<dt class="hud-label">Server</dt>
+						<dd>{site.location}</dd>
+					</div>
+					<div class="stat">
+						<dt class="hud-label">Spawn point</dt>
+						<dd>{site.grewUp}</dd>
+					</div>
+				</dl>
+			</aside>
+
+			<!-- Lore -->
+			<div class="lore animate-fade-up animate-delay-3">
+				<h2 class="lore-title hud-label">Lore</h2>
+				<p class="lore-lead">
+					I'm {site.name} — a {site.role} living in {site.location}, currently
+					building software at <strong>{site.employer}</strong>.
+				</p>
+				<p class="muted lore-body">
+					I grew up in {site.grewUp} and got hooked on making things early —
+					first games, then tools, then the web. These days I like projects
+					where design quality and engineering quality are treated as the same
+					problem: fast, clear, and fun to use.
+				</p>
+				<p class="muted lore-body">
+					Off the clock you'll find me shipping side quests — an idle game, a
+					daily puzzle, streaming tools — anything that's an excuse to build
+					something new.
+				</p>
 			</div>
 		</div>
 	</section>
 
-	<!-- Current Focus -->
-	<section class="container focus-section animate-fade-up animate-delay-4">
-		<h2 class="section-title">Current Focus</h2>
-		<div class="focus-grid">
-			<div class="focus-card">
-				<span class="focus-icon" aria-hidden="true">01</span>
-				<h3>Production Software</h3>
-				<p class="muted">Building reliable internal and external software at {site.employer}.</p>
-			</div>
-			<div class="focus-card">
-				<span class="focus-icon" aria-hidden="true">02</span>
-				<h3>Frontend Architecture</h3>
-				<p class="muted">Modern frontend architecture with Astro and lightweight interactivity.</p>
-			</div>
-			<div class="focus-card">
-				<span class="focus-icon" aria-hidden="true">03</span>
-				<h3>Design Engineering</h3>
-				<p class="muted">Interfaces that balance performance, clarity, and personality.</p>
-			</div>
-		</div>
+	<!-- Active questline — main quest is the day job -->
+	<section class="container quests-section reveal">
+		<header class="quests-head">
+			<p class="hud-label is-accent">Active questline</p>
+			<h2 class="section-title">Current <span class="accent">objectives</span></h2>
+		</header>
+
+		<ul class="quests">
+			<li class="quest panel">
+				<span class="quest-kind hud-label is-accent">◆ Main quest</span>
+				<h3 class="quest-title">Production software</h3>
+				<p class="muted">
+					Build and maintain reliable software at {site.employer} — the work
+					that has to hold up under real daily use.
+				</p>
+			</li>
+			<li class="quest panel">
+				<span class="quest-kind hud-label">◇ Side quest</span>
+				<h3 class="quest-title">Frontend architecture</h3>
+				<p class="muted">
+					Modern, lightweight frontends with Astro — fast by default and
+					simple to maintain.
+				</p>
+			</li>
+			<li class="quest panel">
+				<span class="quest-kind hud-label">○ Daily</span>
+				<h3 class="quest-title">Design engineering</h3>
+				<p class="muted">
+					Interfaces with performance, clarity, and a little personality —
+					the finish work, not just the function.
+				</p>
+			</li>
+		</ul>
 	</section>
 </BaseLayout>
 
 <style>
-	.about-hero {
+	.about-section {
 		padding-top: var(--space-16);
 	}
 
-	.about-grid {
+	.page-head {
+		display: flex;
+		flex-direction: column;
+		gap: 0.55rem;
+		margin-bottom: var(--space-10);
+	}
+
+	.sheet {
 		display: grid;
-		grid-template-columns: 1.2fr 0.8fr;
+		grid-template-columns: 0.8fr 1.2fr;
 		gap: var(--space-8);
 		align-items: start;
 	}
 
-	.about-lead {
+	/* ── Character card ── */
+	.char {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		padding: var(--space-8) var(--space-6) var(--space-6);
+		max-width: 22rem;
+	}
+
+	.char-portrait {
+		display: grid;
+		place-items: center;
+		width: 6.5rem;
+		height: 6.5rem;
+		border: var(--border-w) solid var(--line-strong);
+		border-radius: var(--radius-md);
+		background: var(--bg);
+		margin-bottom: var(--space-4);
+		image-rendering: pixelated;
+	}
+
+	.char-name {
+		font-family: var(--font-display);
+		font-size: 1.3rem;
+		font-weight: 400;
+		color: var(--ink-strong);
+		line-height: 1.1;
+	}
+
+	.char-class {
+		margin-top: 0.35rem;
+	}
+
+	.char-stats {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 0.6rem;
+		width: 100%;
+		margin-top: var(--space-6);
+	}
+
+	.stat {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+		padding: 0.65rem 0.6rem;
+		border: var(--border-w) solid var(--line);
+		border-radius: var(--radius-sm);
+		background: var(--bg);
+	}
+
+	.stat dt {
+		color: var(--muted-soft);
+	}
+
+	.stat dd {
+		font-size: 0.88rem;
+		font-weight: 500;
+		color: var(--ink-strong);
+		line-height: 1.25;
+	}
+
+	/* ── Lore ── */
+	.lore {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
+		padding-top: var(--space-2);
+	}
+
+	.lore-title {
+		color: var(--muted-soft);
+	}
+
+	.lore-lead {
 		font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.3rem);
 		line-height: 1.55;
+		color: var(--ink);
 		max-width: 48ch;
 	}
 
-	.about-lead strong {
+	.lore-lead strong {
 		color: var(--accent-strong);
 		font-weight: 600;
 	}
 
-	.about-body {
-		margin-top: var(--space-4);
-		max-width: 48ch;
+	.lore-body {
+		max-width: 54ch;
 		line-height: 1.7;
 	}
 
-	.about-terminal {
-		justify-self: end;
-		width: 100%;
-		max-width: 22rem;
+	/* ── Quests ── */
+	.quests-section {
+		padding-top: var(--space-20);
 	}
 
-	/* ── Focus Section ── */
-	.focus-section {
-		padding-top: var(--space-12);
+	.quests-head {
+		display: flex;
+		flex-direction: column;
+		gap: 0.55rem;
+		margin-bottom: var(--space-8);
 	}
 
-	.focus-grid {
+	.quests {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
 		gap: 1rem;
 	}
 
-	.focus-card {
+	.quest {
 		padding: var(--space-6);
-		border: 1px solid var(--line);
-		border-radius: var(--radius-md);
-		background: color-mix(in oklab, var(--surface) 90%, white 5%);
-		transition: border-color var(--transition-base), transform var(--transition-base);
+		transition:
+			transform var(--transition-bounce),
+			border-color var(--transition-fast),
+			box-shadow var(--transition-bounce);
 	}
 
-	.focus-card:hover {
-		border-color: color-mix(in oklab, var(--accent) 30%, var(--line));
-		transform: translateY(-2px);
+	.quest:hover {
+		transform: translateY(-3px);
+		border-color: color-mix(in oklab, var(--accent) 45%, var(--line-strong));
+		box-shadow: 0 calc(var(--chunk) + 3px) 0 var(--chunk-shadow);
 	}
 
-	.focus-icon {
+	.quest-kind {
 		display: inline-block;
-		font-family: var(--font-mono);
-		font-size: 0.75rem;
-		color: var(--accent);
 		margin-bottom: var(--space-3);
-		opacity: 0.7;
 	}
 
-	.focus-card h3 {
+	.quest-title {
 		font-family: var(--font-display);
 		font-size: 1.15rem;
-		font-weight: 600;
-		font-style: italic;
+		font-weight: 400;
+		line-height: 1.15;
+		color: var(--ink-strong);
 		margin-bottom: var(--space-2);
-		letter-spacing: -0.01em;
 	}
 
-	.focus-card p {
+	.quest p {
 		font-size: 0.9rem;
-		line-height: 1.55;
+		line-height: 1.6;
 	}
 
 	/* ── Responsive ── */
 	@media (max-width: 900px) {
-		.about-grid {
+		.sheet {
 			grid-template-columns: 1fr;
 		}
 
-		.about-terminal {
-			justify-self: start;
+		.char {
 			max-width: 100%;
+			width: 100%;
 		}
 	}
 
-	@media (max-width: 700px) {
-		.focus-grid {
+	@media (max-width: 720px) {
+		.quests {
 			grid-template-columns: 1fr;
 		}
 	}

@@ -1,5 +1,7 @@
-@import "@fontsource-variable/fraunces";
-@import "@fontsource-variable/manrope";
+@import "@fontsource/bungee";
+@import "@fontsource/silkscreen";
+@import "@fontsource/silkscreen/700.css";
+@import "@fontsource-variable/geist";
 @import "@fontsource/jetbrains-mono/400.css";
 @import "@fontsource/jetbrains-mono/500.css";
 @import "./tokens.css";
@@ -23,8 +25,9 @@ body {
 	background: var(--bg);
 	color: var(--ink);
 	font-family: var(--font-body);
-	font-size: 0.96rem;
-	line-height: 1.65;
+	font-size: 1rem;
+	line-height: 1.6;
+	font-weight: 400;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -50,165 +53,232 @@ button {
 	cursor: pointer;
 	border: none;
 	background: none;
+	color: inherit;
 }
 
-/* ── Selection ── */
 ::selection {
-	background: color-mix(in oklab, var(--accent) 35%, transparent);
-	color: var(--ink);
+	background: color-mix(in oklab, var(--accent) 38%, transparent);
+	color: var(--ink-strong);
 }
 
-/* ── Custom Scrollbar ── */
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 3px;
+	border-radius: var(--radius-xs);
+}
+
+/* ── Scrollbar ── */
 ::-webkit-scrollbar {
-	width: 8px;
+	width: 10px;
+	height: 10px;
 }
-
 ::-webkit-scrollbar-track {
-	background: var(--bg);
+	background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-	background: var(--line);
+	background: color-mix(in oklab, var(--line-strong) 60%, transparent);
 	border-radius: 999px;
+	border: 2px solid var(--bg);
 }
-
 ::-webkit-scrollbar-thumb:hover {
-	background: var(--accent-soft);
+	background: var(--line-strong);
 }
 
 /* ── Layout ── */
 .container {
-	width: min(calc(100% - 2.5rem), var(--content-width));
+	width: min(calc(100% - var(--gutter) * 2), var(--content-width));
 	margin-inline: auto;
 }
 
-/* ── Typography ── */
-.section-title {
-	font-family: var(--font-display);
-	font-size: clamp(1.4rem, 1.2rem + 1vw, 2.4rem);
-	font-weight: 600;
-	font-style: italic;
-	line-height: 1.1;
-	margin: 0 0 var(--space-6);
-	letter-spacing: -0.01em;
+/* ── Typography ───────────────────────── */
+
+/* HUD label — tiny pixel captions */
+.hud-label {
+	font-family: var(--font-hud);
+	font-size: 0.66rem;
+	font-weight: 400;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: var(--muted);
+	line-height: 1.4;
 }
 
-.section-title::before {
-	content: "// ";
-	font-family: var(--font-mono);
-	font-style: normal;
-	font-size: 0.65em;
+.hud-label.is-accent {
 	color: var(--accent);
+}
+
+/* Display headline — arcade marquee */
+.section-title {
+	font-family: var(--font-display);
+	font-size: clamp(1.8rem, 1.3rem + 2.6vw, 3.4rem);
 	font-weight: 400;
+	line-height: 1.05;
+	color: var(--ink-strong);
+	margin: 0 0 var(--space-5);
+}
+
+.section-title .accent {
+	color: var(--accent);
 }
 
 .mono {
 	font-family: var(--font-mono);
-	font-size: 0.88em;
-	letter-spacing: -0.02em;
+	font-size: 0.78rem;
 }
 
-/* ── Cards ── */
-.card {
-	background: color-mix(in oklab, var(--surface) 95%, white 5%);
-	border: 1px solid var(--line);
-	border-radius: var(--radius-md);
-	box-shadow: var(--shadow);
-	transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
-}
-
-.card:hover {
-	border-color: color-mix(in oklab, var(--accent) 30%, var(--line));
-}
-
-/* ── Terminal Window ── */
-.terminal {
-	background: color-mix(in oklab, var(--surface) 92%, black 8%);
-	border: 1px solid var(--line);
-	border-radius: var(--radius-md);
-	overflow: hidden;
-	box-shadow: var(--shadow);
-}
-
-.terminal-bar {
-	display: flex;
-	align-items: center;
-	gap: 0.45rem;
-	padding: 0.55rem 0.85rem;
-	background: color-mix(in oklab, var(--surface) 70%, black 30%);
-	border-bottom: 1px solid var(--line);
-}
-
-.terminal-dot {
-	width: 0.5rem;
-	height: 0.5rem;
-	border-radius: 50%;
-	background: var(--line);
-	transition: background var(--transition-fast);
-}
-
-.terminal:hover .terminal-dot:nth-child(1) { background: #e35; }
-.terminal:hover .terminal-dot:nth-child(2) { background: #ea0; }
-.terminal:hover .terminal-dot:nth-child(3) { background: #2d4; }
-
-.terminal-filename {
-	font-family: var(--font-mono);
-	font-size: 0.75rem;
-	color: var(--muted);
-	margin-left: 0.3rem;
-}
-
-.terminal-body {
-	padding: 1rem 1.1rem;
-	font-family: var(--font-mono);
-	font-size: 0.84rem;
-	line-height: 1.7;
-}
-
-.terminal-body .prompt {
-	color: var(--accent);
-	font-weight: 500;
-	user-select: none;
-}
-
-.terminal-body .output {
-	color: var(--muted);
-	padding-left: 1rem;
-}
-
-/* ── Chips / Tags ── */
-.chip {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.35rem;
-	padding: 0.2rem 0.65rem;
-	border-radius: 999px;
-	border: 1px solid var(--tag-border);
-	font-family: var(--font-mono);
-	font-size: 0.72rem;
-	letter-spacing: 0.01em;
-	color: var(--tag-fg);
-	background: var(--tag-bg);
-}
-
-/* ── Muted helper ── */
 .muted {
 	color: var(--muted);
 }
 
-/* ── Blinking cursor ── */
-@keyframes blink {
+.lede {
+	font-size: clamp(1rem, 0.93rem + 0.45vw, 1.15rem);
+	line-height: 1.65;
+	color: var(--muted);
+	max-width: 56ch;
+}
+
+/* ── Loot chips (tags) ── */
+.chip {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.2rem 0.6rem;
+	border-radius: 999px;
+	border: var(--border-w) solid var(--tag-border);
+	font-family: var(--font-hud);
+	font-size: 0.6rem;
+	letter-spacing: 0.04em;
+	color: var(--tag-fg);
+	background: var(--tag-bg);
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+/* ── Quest status ── */
+.status {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	font-family: var(--font-hud);
+	font-size: 0.64rem;
+	color: var(--muted);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.status::before {
+	content: "";
+	width: 0.5rem;
+	height: 0.5rem;
+	border-radius: 2px;
+	background: var(--muted);
+	flex-shrink: 0;
+}
+
+.status[data-status="live"] {
+	color: var(--ok);
+}
+
+.status[data-status="live"]::before {
+	background: var(--ok);
+	box-shadow: 0 0 8px color-mix(in oklab, var(--ok) 55%, transparent);
+}
+
+.status[data-status="in-progress"] {
+	color: var(--accent-strong);
+}
+
+.status[data-status="in-progress"]::before {
+	background: var(--accent);
+	box-shadow: 0 0 8px color-mix(in oklab, var(--accent) 55%, transparent);
+	animation: statusPulse 1.6s ease-in-out infinite;
+}
+
+.status[data-status="archived"]::before {
+	background: var(--muted-soft);
+}
+
+@keyframes statusPulse {
 	0%, 100% { opacity: 1; }
-	50% { opacity: 0; }
+	50% { opacity: 0.45; }
 }
 
-.cursor {
+/* ── Buttons — chunky, pressable, game-feel ── */
+.btn {
+	--btn-bg: var(--surface);
+	--btn-fg: var(--ink-strong);
+	--btn-border: var(--line-strong);
+	--btn-shadow: var(--chunk-shadow);
+	display: inline-flex;
+	align-items: center;
+	gap: 0.55rem;
+	padding: 0.7rem 1.3rem;
+	background: var(--btn-bg);
+	color: var(--btn-fg);
+	border: var(--border-w) solid var(--btn-border);
+	border-radius: var(--radius-sm);
+	box-shadow: 0 var(--chunk) 0 var(--btn-shadow);
+	font-family: var(--font-hud);
+	font-size: 0.74rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	white-space: nowrap;
+	transition:
+		transform var(--transition-bounce),
+		box-shadow var(--transition-bounce),
+		background var(--transition-fast),
+		border-color var(--transition-fast);
+}
+
+.btn:hover,
+.btn:focus-visible {
+	transform: translateY(-2px);
+	box-shadow: 0 calc(var(--chunk) + 2px) 0 var(--btn-shadow);
+}
+
+.btn:active {
+	transform: translateY(2px);
+	box-shadow: 0 1px 0 var(--btn-shadow);
+}
+
+.btn-primary {
+	--btn-bg: var(--accent);
+	--btn-fg: var(--accent-ink);
+	--btn-border: var(--accent);
+	--btn-shadow: var(--accent-deep);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+	--btn-bg: var(--accent-strong);
+	--btn-border: var(--accent-strong);
+}
+
+.btn-ghost:hover,
+.btn-ghost:focus-visible {
+	--btn-border: color-mix(in oklab, var(--accent) 55%, var(--line-strong));
+	--btn-fg: var(--accent-strong);
+}
+
+.btn .arrow {
 	display: inline-block;
-	color: var(--accent);
-	animation: blink 1.8s step-end infinite;
+	transition: transform var(--transition-fast);
 }
 
-/* ── Staggered entrance ── */
+.btn:hover .arrow,
+.btn:focus-visible .arrow {
+	transform: translate(2px, -2px);
+}
+
+/* ── Game panel — chunky bordered card ── */
+.panel {
+	border: var(--border-w) solid var(--line-strong);
+	border-radius: var(--radius-md);
+	background: color-mix(in oklab, var(--bg-elev) 94%, transparent);
+	box-shadow: 0 var(--chunk) 0 var(--chunk-shadow);
+}
+
+/* ── Animations ── */
 @keyframes fadeUp {
 	from {
 		opacity: 0;
@@ -225,27 +295,75 @@ button {
 	to { opacity: 1; }
 }
 
-@keyframes slideInRight {
-	from {
-		opacity: 0;
-		transform: translateX(24px);
-	}
-	to {
-		opacity: 1;
-		transform: translateX(0);
-	}
+@keyframes blink {
+	0%, 55% { opacity: 1; }
+	56%, 100% { opacity: 0; }
+}
+
+@keyframes popIn {
+	0% { opacity: 0; transform: scale(0.6); }
+	70% { opacity: 1; transform: scale(1.06); }
+	100% { opacity: 1; transform: scale(1); }
 }
 
 .animate-fade-up {
-	animation: fadeUp 600ms var(--ease-out-expo) both;
+	animation: fadeUp 650ms var(--ease-out-expo) both;
 }
 
-.animate-delay-1 { animation-delay: 100ms; }
-.animate-delay-2 { animation-delay: 200ms; }
-.animate-delay-3 { animation-delay: 350ms; }
-.animate-delay-4 { animation-delay: 500ms; }
-.animate-delay-5 { animation-delay: 650ms; }
-.animate-delay-6 { animation-delay: 800ms; }
+.animate-delay-1 { animation-delay: 80ms; }
+.animate-delay-2 { animation-delay: 180ms; }
+.animate-delay-3 { animation-delay: 300ms; }
+.animate-delay-4 { animation-delay: 440ms; }
+.animate-delay-5 { animation-delay: 600ms; }
+
+/* Scroll-triggered reveal (IntersectionObserver in BaseLayout) */
+.reveal {
+	opacity: 0;
+	transform: translateY(18px);
+	transition: opacity 650ms var(--ease-out-expo), transform 650ms var(--ease-out-expo);
+}
+
+.reveal.is-visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* ── Cheat-code confetti ── */
+.confetti-bit {
+	position: fixed;
+	top: -12px;
+	width: 8px;
+	height: 8px;
+	z-index: 10000;
+	pointer-events: none;
+	animation: confettiFall var(--fall-time, 1.6s) linear forwards;
+}
+
+@keyframes confettiFall {
+	to {
+		transform: translateY(105vh) rotate(540deg);
+		opacity: 0.9;
+	}
+}
+
+.cheat-toast {
+	position: fixed;
+	left: 50%;
+	bottom: 2rem;
+	transform: translateX(-50%);
+	z-index: 10001;
+	padding: 0.75rem 1.3rem;
+	border: var(--border-w) solid var(--accent);
+	border-radius: var(--radius-sm);
+	background: var(--bg-elev);
+	box-shadow: 0 var(--chunk) 0 var(--accent-deep);
+	font-family: var(--font-hud);
+	font-size: 0.72rem;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--accent-strong);
+	animation: popIn 350ms var(--ease-bounce) both;
+}
 
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
@@ -258,9 +376,8 @@ button {
 		scroll-behavior: auto !important;
 	}
 
-	/* Keep cursor visible but static instead of flickering */
-	.cursor {
-		animation: none !important;
-		opacity: 1 !important;
+	.reveal {
+		opacity: 1;
+		transform: none;
 	}
 }

@@ -10,7 +10,7 @@ interface Props {
 }
 
 const {
-	title = `${site.name} | Portfolio`,
+	title = `${site.name} — Portfolio`,
 	description = site.description,
 } = Astro.props;
 ---
@@ -34,71 +34,126 @@ const {
 		<title>{title}</title>
 	</head>
 	<body>
-		<!-- Background layers -->
-		<div class="bg-layer" aria-hidden="true"></div>
-		<div class="grain" aria-hidden="true"></div>
+		<!-- Atmosphere: warm wash + CRT scanlines + vignette -->
+		<div class="bg-wash" aria-hidden="true"></div>
+		<div class="scanlines" aria-hidden="true"></div>
+		<div class="vignette" aria-hidden="true"></div>
 
 		<Header />
 		<main>
 			<slot />
 		</main>
 		<Footer />
+
+		<script>
+			// ── Scroll-triggered reveals ──
+			const revealEls = document.querySelectorAll('.reveal');
+			if (revealEls.length) {
+				const io = new IntersectionObserver(
+					(entries) => {
+						for (const entry of entries) {
+							if (entry.isIntersecting) {
+								entry.target.classList.add('is-visible');
+								io.unobserve(entry.target);
+							}
+						}
+					},
+					{ threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+				);
+				revealEls.forEach((el) => io.observe(el));
+			}
+
+			// ── Konami code → cheat activated ──
+			const CODE = [
+				'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
+				'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
+				'b', 'a',
+			];
+			let progress = 0;
+
+			const cheer = () => {
+				const colors = ['#d97441', '#f0915f', '#6dcf90', '#ece4d3'];
+				for (let i = 0; i < 48; i++) {
+					const bit = document.createElement('div');
+					bit.className = 'confetti-bit';
+					bit.style.left = `${Math.random() * 100}vw`;
+					bit.style.background = colors[i % colors.length];
+					bit.style.setProperty('--fall-time', `${1.1 + Math.random() * 1.4}s`);
+					bit.style.animationDelay = `${Math.random() * 350}ms`;
+					document.body.appendChild(bit);
+					setTimeout(() => bit.remove(), 3200);
+				}
+
+				const toast = document.createElement('div');
+				toast.className = 'cheat-toast';
+				toast.setAttribute('role', 'status');
+				toast.textContent = '★ Cheat activated — thanks for playing';
+				document.body.appendChild(toast);
+				setTimeout(() => toast.remove(), 2800);
+			};
+
+			document.addEventListener('keydown', (e) => {
+				const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+				progress = key === CODE[progress] ? progress + 1 : key === CODE[0] ? 1 : 0;
+				if (progress === CODE.length) {
+					progress = 0;
+					cheer();
+				}
+			});
+		</script>
 	</body>
 </html>
 
 <style>
-	/* ── Atmospheric background ── */
-	.bg-layer {
+	.bg-wash {
+		position: fixed;
+		inset: 0;
+		pointer-events: none;
+		z-index: -3;
+		background:
+			radial-gradient(60% 42% at 50% 0%, color-mix(in oklab, var(--accent-soft) 20%, transparent), transparent 72%),
+			var(--bg);
+	}
+
+	/* CRT scanlines — barely there */
+	.scanlines {
+		position: fixed;
+		inset: 0;
+		pointer-events: none;
+		z-index: 9998;
+		background: repeating-linear-gradient(
+			to bottom,
+			transparent 0,
+			transparent 2px,
+			rgba(0, 0, 0, 0.05) 2px,
+			rgba(0, 0, 0, 0.05) 3px
+		);
+		opacity: 0.5;
+		mix-blend-mode: overlay;
+	}
+
+	:root[data-theme='light'] .scanlines {
+		opacity: 0.25;
+	}
+
+	.vignette {
 		position: fixed;
 		inset: 0;
 		pointer-events: none;
 		z-index: -2;
-		background:
-			/* Warm glow top-left */
-			radial-gradient(ellipse 60% 50% at 15% 8%, color-mix(in oklab, var(--accent-soft) 22%, transparent), transparent),
-			/* Teal glow bottom-right */
-			radial-gradient(ellipse 50% 45% at 88% 82%, color-mix(in oklab, var(--teal-soft) 18%, transparent), transparent),
-			/* Faint diagonal accent line */
-			linear-gradient(
-				145deg,
-				transparent 48.8%,
-				color-mix(in oklab, var(--accent) 6%, transparent) 49%,
-				color-mix(in oklab, var(--accent) 6%, transparent) 49.2%,
-				transparent 49.4%
-			),
-			/* Dot grid pattern */
-			radial-gradient(circle at center, color-mix(in oklab, var(--line) 35%, transparent) 0.5px, transparent 0.5px),
-			var(--bg);
-		background-size: auto, auto, auto, 24px 24px, auto;
+		background: radial-gradient(120% 100% at 50% 45%, transparent 60%, color-mix(in oklab, var(--bg) 70%, black) 130%);
+		opacity: 0.55;
 	}
 
-	/* ── Film grain overlay ── */
-	.grain {
-		position: fixed;
-		inset: -50%;
-		width: 200%;
-		height: 200%;
-		pointer-events: none;
-		z-index: 9999;
-		opacity: 0.028;
-		mix-blend-mode: overlay;
-		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-		background-size: 200px 200px;
-	}
-
-	/* ── Main content entrance ── */
 	main {
-		animation: mainReveal 500ms var(--ease-out-expo) both;
+		animation: mainReveal 550ms var(--ease-out-expo) both;
+		min-height: 60vh;
+		position: relative;
+		z-index: 1;
 	}
 
 	@keyframes mainReveal {
-		from {
-			opacity: 0;
-			transform: translateY(10px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
+		from { opacity: 0; transform: translateY(8px); }
+		to { opacity: 1; transform: translateY(0); }
 	}
 </style>

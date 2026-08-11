@@ -6,206 +6,227 @@ import { site } from '../consts/site';
 const projects = (await getCollection('projects')).sort(
 	(a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
+
+const QUEST_LABEL: Record<string, string> = {
+	live: 'complete',
+	'in-progress': 'active',
+	archived: 'retired',
+};
 ---
 
-<BaseLayout title={`${site.name} | Projects`} description="Portfolio projects and experiments by Brendan Bishop.">
+<BaseLayout
+	title={`${site.name} | Projects`}
+	description="Projects, games, and experiments by Brendan Bishop."
+>
 	<section class="container section">
-		<h1 class="section-title animate-fade-up animate-delay-1">Projects</h1>
-		<p class="muted intro animate-fade-up animate-delay-2">
-			A mix of production work, experiments, and archived concepts that shaped
-			how I build today.
-		</p>
+		<header class="page-head animate-fade-up animate-delay-1">
+			<p class="hud-label is-accent">Load game</p>
+			<h1 class="section-title">
+				Select a <span class="accent">save file</span>
+			</h1>
+			<p class="lede">
+				Every project on record — games, tools, and experiments, newest first.
+			</p>
+		</header>
 
-		<div class="grid">
+		<ol class="slots">
 			{
 				projects.map((entry, i) => (
-					<article
-						class={`project-card animate-fade-up`}
-						style={`animation-delay: ${250 + i * 100}ms`}
+					<li
+						class="slot-wrap animate-fade-up"
+						style={`animation-delay: ${200 + i * 80}ms`}
 					>
-						{/* Window bar */}
-						<div class="card-bar">
-							<div class="card-dots">
-								<span class="dot" />
-								<span class="dot" />
-								<span class="dot" />
-							</div>
-							<span class="card-filename mono">
-								{entry.data.title.toLowerCase().replace(/\s+/g, '-')}.md
+						<a href={`/projects/${entry.slug}/`} class="slot panel">
+							<span class="slot-num" aria-hidden="true">
+								<span class="hud-label">slot</span>
+								<span class="slot-digit">{String(i + 1).padStart(2, '0')}</span>
 							</span>
-						</div>
 
-						<div class="card-body">
-							<div class="meta">
-								<span class="chip">{entry.data.tags[0] ?? 'Project'}</span>
-								<span class="status-badge" data-status={entry.data.status}>
-									{entry.data.status.replace('-', ' ')}
+							<span class="slot-main">
+								<span class="slot-top">
+									<h2 class="slot-title">{entry.data.title}</h2>
+									<span class="status" data-status={entry.data.status}>
+										{QUEST_LABEL[entry.data.status]}
+									</span>
 								</span>
-							</div>
-							<h2>
-								<a href={`/projects/${entry.slug}/`}>{entry.data.title}</a>
-							</h2>
-							<p class="summary">{entry.data.summary}</p>
-							<p class="muted date mono">
-								{entry.data.date.toLocaleDateString('en-US', {
-									year: 'numeric',
-									month: 'short',
-									day: 'numeric',
-								})}
-							</p>
-						</div>
-					</article>
+								<span class="slot-summary">{entry.data.summary}</span>
+								<span class="slot-meta">
+									<span class="slot-tags">
+										{entry.data.tags.map((tag: string) => (
+											<span class="chip">{tag}</span>
+										))}
+									</span>
+									<span class="slot-date hud-label">
+										saved {entry.data.date.toLocaleDateString('en-US', {
+											month: 'short',
+											year: 'numeric',
+										})}
+									</span>
+								</span>
+							</span>
+
+							<span class="slot-load hud-label" aria-hidden="true">
+								load <span class="slot-arrow">▶</span>
+							</span>
+						</a>
+					</li>
 				))
 			}
-		</div>
+		</ol>
 	</section>
 </BaseLayout>
 
 <style>
 	.section {
-		padding-top: var(--space-16);
+		padding: var(--space-16) 0 var(--space-12);
 	}
 
-	.intro {
-		max-width: 55ch;
-		margin-bottom: var(--space-2);
+	.page-head {
+		display: flex;
+		flex-direction: column;
+		gap: 0.55rem;
+		margin-bottom: var(--space-10);
 	}
 
-	.grid {
-		margin-top: var(--space-6);
+	.slots {
+		display: flex;
+		flex-direction: column;
+		gap: 0.9rem;
+	}
+
+	/* ── Save slot ── */
+	.slot {
 		display: grid;
-		grid-template-columns: repeat(12, minmax(0, 1fr));
-		gap: 1rem;
-	}
-
-	/* ── Project Card ── */
-	.project-card {
-		grid-column: span 6;
-		border: 1px solid var(--line);
-		border-radius: var(--radius-md);
-		background: color-mix(in oklab, var(--surface) 95%, white 5%);
-		box-shadow: var(--shadow);
-		overflow: hidden;
+		grid-template-columns: 4.5rem 1fr auto;
+		align-items: center;
+		gap: var(--space-6);
+		padding: 1.2rem 1.4rem;
 		transition:
-			transform 280ms var(--ease-out-expo),
-			box-shadow 280ms var(--ease-out-expo),
-			border-color 280ms var(--ease-out-expo);
+			transform var(--transition-bounce),
+			border-color var(--transition-fast),
+			box-shadow var(--transition-bounce);
 	}
 
-	.project-card:hover {
-		transform: translateY(-4px);
-		box-shadow: var(--shadow), var(--glow);
-		border-color: color-mix(in oklab, var(--accent) 30%, var(--line));
+	.slot:hover,
+	.slot:focus-visible {
+		transform: translateY(-3px);
+		border-color: color-mix(in oklab, var(--accent) 50%, var(--line-strong));
+		box-shadow: 0 calc(var(--chunk) + 3px) 0 var(--chunk-shadow), var(--shadow-soft);
 	}
 
-	/* Window bar */
-	.card-bar {
+	.slot-num {
 		display: flex;
+		flex-direction: column;
 		align-items: center;
-		gap: 0.5rem;
-		padding: 0.5rem 0.85rem;
-		background: color-mix(in oklab, var(--surface) 70%, black 30%);
-		border-bottom: 1px solid var(--line);
+		gap: 0.15rem;
+		padding: 0.55rem 0;
+		border: var(--border-w) solid var(--line);
+		border-radius: var(--radius-sm);
+		background: var(--bg);
 	}
 
-	.card-dots {
-		display: flex;
-		gap: 0.35rem;
-	}
-
-	.dot {
-		width: 0.42rem;
-		height: 0.42rem;
-		border-radius: 50%;
-		background: var(--line);
-		transition: background 200ms ease;
-	}
-
-	.project-card:hover .dot:nth-child(1) { background: #e35; }
-	.project-card:hover .dot:nth-child(2) { background: #ea0; }
-	.project-card:hover .dot:nth-child(3) { background: #2d4; }
-
-	.card-filename {
-		font-size: 0.7rem;
-		color: var(--muted);
-		opacity: 0.7;
-	}
-
-	/* Card body */
-	.card-body {
-		padding: 1.1rem 1.2rem 1.3rem;
-	}
-
-	.meta {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 0.8rem;
-		margin-bottom: 0.3rem;
-	}
-
-	.status-badge {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.3rem;
-		font-family: var(--font-mono);
-		font-size: 0.7rem;
-		text-transform: capitalize;
-		color: var(--muted);
-	}
-
-	.status-badge::before {
-		content: '';
-		width: 0.35rem;
-		height: 0.35rem;
-		border-radius: 50%;
-		background: var(--muted);
-	}
-
-	.status-badge[data-status="live"]::before {
-		background: #2d4;
-		box-shadow: 0 0 4px rgba(34, 221, 68, 0.4);
-	}
-
-	.status-badge[data-status="in-progress"]::before {
-		background: var(--accent);
-		box-shadow: 0 0 4px rgba(221, 122, 45, 0.4);
-	}
-
-	.project-card h2 {
+	.slot-digit {
 		font-family: var(--font-display);
-		font-size: 1.4rem;
-		font-weight: 600;
-		font-style: italic;
-		line-height: 1.15;
-		margin: 0.3rem 0 0.35rem;
-		letter-spacing: -0.01em;
+		font-size: 1.3rem;
+		color: var(--accent);
+		line-height: 1;
 	}
 
-	.project-card h2 a {
+	.slot-main {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+		min-width: 0;
+	}
+
+	.slot-top {
+		display: flex;
+		align-items: baseline;
+		gap: 0.9rem;
+		flex-wrap: wrap;
+	}
+
+	.slot-title {
+		font-family: var(--font-display);
+		font-size: clamp(1.2rem, 1rem + 0.9vw, 1.7rem);
+		font-weight: 400;
+		line-height: 1.05;
+		color: var(--ink-strong);
 		transition: color var(--transition-fast);
 	}
 
-	.project-card h2 a:hover,
-	.project-card h2 a:focus-visible {
+	.slot:hover .slot-title {
 		color: var(--accent-strong);
 	}
 
-	.summary {
+	.slot-summary {
 		color: var(--muted);
-		font-size: 0.9rem;
-		line-height: 1.5;
+		font-size: 0.92rem;
+		line-height: 1.55;
+		max-width: 62ch;
 	}
 
-	.date {
-		margin-top: 0.6rem;
-		margin-bottom: 0;
-		font-size: 0.75rem;
+	.slot-meta {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		flex-wrap: wrap;
+		margin-top: 0.2rem;
 	}
 
-	@media (max-width: 860px) {
-		.project-card {
-			grid-column: span 12;
+	.slot-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.3rem;
+	}
+
+	.slot-date {
+		color: var(--muted-soft);
+	}
+
+	.slot-load {
+		color: var(--muted-soft);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		transition: color var(--transition-fast);
+	}
+
+	.slot-arrow {
+		color: var(--accent);
+		opacity: 0;
+		transform: translateX(-5px);
+		transition: opacity var(--transition-fast), transform var(--transition-bounce);
+	}
+
+	.slot:hover .slot-load {
+		color: var(--accent-strong);
+	}
+
+	.slot:hover .slot-arrow {
+		opacity: 1;
+		transform: translateX(0);
+	}
+
+	/* ── Responsive ── */
+	@media (max-width: 760px) {
+		.slot {
+			grid-template-columns: 1fr;
+			gap: 0.75rem;
+			padding: 1.1rem 1.15rem;
+		}
+
+		.slot-num {
+			flex-direction: row;
+			gap: 0.45rem;
+			padding: 0.3rem 0.7rem;
+			align-self: start;
+			width: fit-content;
+		}
+
+		.slot-load {
+			display: none;
 		}
 	}
 </style>
