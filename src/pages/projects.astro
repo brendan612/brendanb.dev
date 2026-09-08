@@ -8,9 +8,9 @@ const projects = (await getCollection('projects')).sort(
 );
 
 const QUEST_LABEL: Record<string, string> = {
-	live: 'complete',
-	'in-progress': 'active',
-	archived: 'retired',
+	live: 'Live',
+	'in-progress': 'In progress',
+	archived: 'Archived',
 };
 ---
 
@@ -20,9 +20,9 @@ const QUEST_LABEL: Record<string, string> = {
 >
 	<section class="container section">
 		<header class="page-head animate-fade-up animate-delay-1">
-			<p class="hud-label is-accent">Load game</p>
+			<p class="hud-label is-accent">Project library</p>
 			<h1 class="section-title">
-				Select a <span class="accent">save file</span>
+				Things I’ve <span class="accent">made.</span>
 			</h1>
 			<p class="lede">
 				Every project on record — games, tools, and experiments, newest first.
@@ -36,11 +36,7 @@ const QUEST_LABEL: Record<string, string> = {
 						class="slot-wrap animate-fade-up"
 						style={`animation-delay: ${200 + i * 80}ms`}
 					>
-						<a href={`/projects/${entry.slug}/`} class="slot panel">
-							<span class="slot-num" aria-hidden="true">
-								<span class="hud-label">slot</span>
-								<span class="slot-digit">{String(i + 1).padStart(2, '0')}</span>
-							</span>
+						<a href={`/projects/${entry.id}/`} class="slot panel">
 
 							<span class="slot-main">
 								<span class="slot-top">
@@ -57,7 +53,7 @@ const QUEST_LABEL: Record<string, string> = {
 										))}
 									</span>
 									<span class="slot-date hud-label">
-										saved {entry.data.date.toLocaleDateString('en-US', {
+										{entry.data.date.toLocaleDateString('en-US', {
 											month: 'short',
 											year: 'numeric',
 										})}
@@ -66,7 +62,7 @@ const QUEST_LABEL: Record<string, string> = {
 							</span>
 
 							<span class="slot-load hud-label" aria-hidden="true">
-								load <span class="slot-arrow">▶</span>
+								view <span class="slot-arrow">→</span>
 							</span>
 						</a>
 					</li>
@@ -97,7 +93,7 @@ const QUEST_LABEL: Record<string, string> = {
 	/* ── Save slot ── */
 	.slot {
 		display: grid;
-		grid-template-columns: 4.5rem 1fr auto;
+		grid-template-columns: 1fr auto;
 		align-items: center;
 		gap: var(--space-6);
 		padding: 1.2rem 1.4rem;
@@ -109,27 +105,9 @@ const QUEST_LABEL: Record<string, string> = {
 
 	.slot:hover,
 	.slot:focus-visible {
-		transform: translateY(-3px);
+		transform: translateY(-1px);
 		border-color: color-mix(in oklab, var(--accent) 50%, var(--line-strong));
 		box-shadow: 0 calc(var(--chunk) + 3px) 0 var(--chunk-shadow), var(--shadow-soft);
-	}
-
-	.slot-num {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 0.15rem;
-		padding: 0.55rem 0;
-		border: var(--border-w) solid var(--line);
-		border-radius: var(--radius-sm);
-		background: var(--bg);
-	}
-
-	.slot-digit {
-		font-family: var(--font-display);
-		font-size: 1.3rem;
-		color: var(--accent);
-		line-height: 1;
 	}
 
 	.slot-main {
@@ -149,7 +127,7 @@ const QUEST_LABEL: Record<string, string> = {
 	.slot-title {
 		font-family: var(--font-display);
 		font-size: clamp(1.2rem, 1rem + 0.9vw, 1.7rem);
-		font-weight: 400;
+		font-weight: 550;
 		line-height: 1.05;
 		color: var(--ink-strong);
 		transition: color var(--transition-fast);
@@ -215,14 +193,6 @@ const QUEST_LABEL: Record<string, string> = {
 			grid-template-columns: 1fr;
 			gap: 0.75rem;
 			padding: 1.1rem 1.15rem;
-		}
-
-		.slot-num {
-			flex-direction: row;
-			gap: 0.45rem;
-			padding: 0.3rem 0.7rem;
-			align-self: start;
-			width: fit-content;
 		}
 
 		.slot-load {

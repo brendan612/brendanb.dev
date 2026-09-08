@@ -1,6 +1,6 @@
 ---
 title: "Untitled Idle Game"
-summary: "An idle rpg game I am actively building in a private repository."
+summary: "A game built around steady progress, collecting upgrades, and discovering new things over time."
 date: "2026-02-07"
 tags: ["Game Dev", "Incremental", "In Progress"]
 featured: true

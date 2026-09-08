@@ -1,101 +1,45 @@
-/* ──────────────────────────────────────────
-   Design Tokens — brendanb.dev
-   "Cozy game title screen":
-   warm graphite, parchment ink, ember accent —
-   chunky borders, hard offset shadows, pixel HUD labels.
-   Bungee (display) · Geist (body) · Silkscreen (HUD) · JetBrains Mono (code)
-   ────────────────────────────────────────── */
-
+/* Quiet indie-game palette. */
 :root {
-	/* ── Palette: dark (default) — the base the client loves ── */
-	--bg: #0f1214;
-	--bg-elev: #14181b;
-	--surface: #181d20;
-	--surface-strong: #1f2528;
-	--ink: #ece4d3;
-	--ink-strong: #f7efde;
-	--muted: #9aa0a4;
-	--muted-soft: #6a7074;
-	--line: #262c30;
-	--line-strong: #3a4146;
-	--accent: #d97441;
-	--accent-strong: #f0915f;
-	--accent-soft: #5e3a23;
-	--accent-deep: #7c3a17;
-	--accent-ink: #0f1214;
-	--tag-fg: #e9c39c;
-	--tag-bg: #1c2125;
-	--tag-border: #3a2c20;
-	--ok: #6dcf90;
-	--ok-deep: #2c5e3f;
-	--shadow-soft: 0 24px 48px -28px rgba(0, 0, 0, 0.55);
-	color-scheme: dark;
-
-	/* ── Game-UI system ── */
-	--border-w: 2px;
-	--chunk: 4px;              /* hard shadow offset */
-	--chunk-shadow: color-mix(in oklab, var(--line-strong) 85%, black);
-
-	/* ── Typography ── */
-	--font-display: "Bungee", "Luckiest Guy", "Arial Black", Impact, sans-serif;
-	--font-body: "Geist Variable", "Geist", "Söhne", system-ui, sans-serif;
-	--font-hud: "Silkscreen", "Press Start 2P", "Courier New", monospace;
-	--font-mono: "JetBrains Mono", "IBM Plex Mono", Menlo, Consolas, monospace;
-
-	/* ── Spacing scale ── */
-	--space-1: 0.25rem;
-	--space-2: 0.5rem;
-	--space-3: 0.75rem;
-	--space-4: 1rem;
-	--space-5: 1.25rem;
-	--space-6: 1.5rem;
-	--space-8: 2rem;
-	--space-10: 2.5rem;
-	--space-12: 3rem;
-	--space-16: 4rem;
-	--space-20: 5rem;
-	--space-24: 6rem;
-
-	/* ── Radii — soft toy-like corners ── */
-	--radius-xs: 6px;
-	--radius-sm: 10px;
-	--radius-md: 14px;
-	--radius-lg: 20px;
-
-	/* ── Layout ── */
-	--content-width: 72rem;
-	--gutter: clamp(1.25rem, 4vw, 2.75rem);
-
-	/* ── Motion — bouncy, game-feel ── */
-	--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-	--ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-	--transition-fast: 140ms var(--ease-out-expo);
-	--transition-base: 260ms var(--ease-out-expo);
-	--transition-bounce: 320ms var(--ease-bounce);
+ --bg:#151923; --bg-elev:#1b202c; --surface:#1e2431; --surface-strong:#293141;
+ --ink:#d5dae4; --ink-strong:#edf0f5; --muted:#a3adbf; --muted-soft:#8793a8;
+ --line:#2b3343; --line-strong:#3b455a; --accent:#edaa73; --accent-strong:#ffc18f;
+ --accent-soft:#433127; --accent-deep:#a66c42; --accent-ink:#241a13;
+ --tag-fg:#b8bfd0; --tag-bg:#242a39; --tag-border:#343d50; --ok:#91c8b2; --ok-deep:#385f55;
+ --shadow-soft:0 12px 32px -18px #070c1b80; --border-w:1px; --chunk:0px; --chunk-shadow:transparent;
+ --font-display:'Geist Variable',system-ui,sans-serif; --font-body:'Geist Variable',system-ui,sans-serif;
+ --font-pixel:'Silkscreen',monospace; --font-hud:'JetBrains Mono',monospace; --font-mono:'JetBrains Mono',monospace;
+ --space-1:.25rem; --space-2:.5rem; --space-3:.75rem; --space-4:1rem; --space-5:1.25rem; --space-6:1.5rem;
+ --space-8:2rem; --space-10:2.5rem; --space-12:3rem; --space-16:4rem; --space-20:5rem; --space-24:6rem;
+ --radius-xs:5px; --radius-sm:8px; --radius-md:12px; --radius-lg:18px;
+ --content-width:68rem; --gutter:clamp(1.25rem,4vw,2.75rem);
+ --ease-out-expo:cubic-bezier(.16,1,.3,1); --ease-bounce:cubic-bezier(.2,.8,.2,1);
+ --transition-fast:160ms ease; --transition-base:240ms ease; --transition-bounce:240ms var(--ease-out-expo);
+ color-scheme:dark;
+}
+:root[data-theme='light'] {
+ --bg:#eef0f7; --bg-elev:#f7f8fc; --surface:#ffffff; --surface-strong:#e4e7f1;
+ --ink:#364158; --ink-strong:#20283c; --muted:#5b6680; --muted-soft:#66728b;
+ --line:#d6dbea; --line-strong:#bcc5d9; --accent:#a74c16; --accent-strong:#873b10;
+ --accent-soft:#f4e3d5; --accent-deep:#d59261; --accent-ink:#ffffff;
+ --tag-fg:#59647b; --tag-bg:#e9edf6; --tag-border:#d3daea; --ok:#36745e; --ok-deep:#bfdccc;
+ --shadow-soft:0 12px 32px -18px #69739440; color-scheme:light;
 }
 
-:root[data-theme='light'] {
-	--bg: #f4ede0;
-	--bg-elev: #f8f1e3;
-	--surface: #fbf5e7;
-	--surface-strong: #f0e7d3;
-	--ink: #1a1c1d;
-	--ink-strong: #0b0d0e;
-	--muted: #5b5e60;
-	--muted-soft: #8a8c8e;
-	--line: #d6cdba;
-	--line-strong: #b9ad95;
-	--accent: #b85020;
-	--accent-strong: #8d3a14;
-	--accent-soft: #f1b27c;
-	--accent-deep: #7c3210;
-	--accent-ink: #fbf5e7;
-	--tag-fg: #6d3110;
-	--tag-bg: #f1e6cf;
-	--tag-border: #d2a472;
-	--ok: #4a8c5e;
-	--ok-deep: #b9d9c2;
-	--shadow-soft: 0 20px 44px -26px rgba(28, 22, 12, 0.28);
-	--chunk-shadow: color-mix(in oklab, var(--line-strong) 90%, transparent);
-	color-scheme: light;
+:root[data-accent='lavender'] {
+ --accent:#b6a4ed; --accent-strong:#cabcfa; --accent-soft:#38314f; --accent-deep:#73619f; --accent-ink:#191625;
+}
+:root[data-accent='mint'] {
+ --accent:#91c8b2; --accent-strong:#afe2cd; --accent-soft:#263e38; --accent-deep:#527f6f; --accent-ink:#12251e;
+}
+:root[data-accent='ice'] {
+ --accent:#8ebfe8; --accent-strong:#aed8f8; --accent-soft:#283a4d; --accent-deep:#557e9e; --accent-ink:#122333;
+}
+:root[data-theme='light'][data-accent='lavender'] {
+ --accent:#7053aa; --accent-strong:#5b3d94; --accent-soft:#e8e0f6; --accent-deep:#b6a4ed; --accent-ink:#ffffff;
+}
+:root[data-theme='light'][data-accent='mint'] {
+ --accent:#317359; --accent-strong:#235a44; --accent-soft:#d9ece3; --accent-deep:#8abbA5; --accent-ink:#ffffff;
+}
+:root[data-theme='light'][data-accent='ice'] {
+ --accent:#316d9f; --accent-strong:#24557f; --accent-soft:#dce9f4; --accent-deep:#8fb6d5; --accent-ink:#ffffff;
 }

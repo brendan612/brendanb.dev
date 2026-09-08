@@ -1,23 +1,13 @@
 ---
 import NavLink from './NavLink.astro';
 import ThemeToggle from './ThemeToggle.astro';
-import { site } from '../../consts/site';
+
 ---
 
 <header class="header-wrap">
 	<div class="container header">
 		<a href="/" class="brand" aria-label="Home">
-			<span class="brand-gem" aria-hidden="true">
-				<svg width="20" height="20" viewBox="0 0 12 12" aria-hidden="true">
-					<!-- pixel gem -->
-					<rect x="3" y="1" width="6" height="2" fill="var(--accent-strong)"/>
-					<rect x="1" y="3" width="10" height="2" fill="var(--accent)"/>
-					<rect x="2" y="5" width="8" height="2" fill="var(--accent)"/>
-					<rect x="3" y="7" width="6" height="2" fill="var(--accent-deep)"/>
-					<rect x="5" y="9" width="2" height="2" fill="var(--accent-deep)"/>
-					<rect x="3" y="3" width="2" height="2" fill="var(--accent-strong)"/>
-				</svg>
-			</span>
+			<span class="brand-logo"><img src="/logo.png" width="44" height="44" alt="" /></span>
 			<span class="brand-text">
 				<span class="brand-name">Brendan Bishop</span>
 				<span class="brand-meta hud-label">software engineer</span>
@@ -32,9 +22,6 @@ import { site } from '../../consts/site';
 		</nav>
 
 		<div class="header-right">
-			<span class="lv-badge" title={`Level ${site.age} — one level per year`}>
-				<span class="hud-label is-accent">LV {site.age}</span>
-			</span>
 			<ThemeToggle />
 		</div>
 	</div>
@@ -55,7 +42,7 @@ import { site } from '../../consts/site';
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 0.75rem 0;
+		padding: 1.15rem 0;
 		gap: var(--space-4);
 	}
 
@@ -66,15 +53,16 @@ import { site } from '../../consts/site';
 		gap: 0.6rem;
 	}
 
-	.brand-gem {
+	.brand-logo {
 		display: inline-grid;
 		place-items: center;
-		transition: transform var(--transition-bounce);
+		width: 44px;
+		height: 44px;
+		flex-shrink: 0;
+		background: #151923;
+		border-radius: 8px;
 	}
 
-	.brand:hover .brand-gem {
-		transform: translateY(-2px) rotate(-8deg) scale(1.1);
-	}
 
 	.brand-text {
 		display: flex;
@@ -85,13 +73,14 @@ import { site } from '../../consts/site';
 
 	.brand-name {
 		font-family: var(--font-display);
-		font-size: 0.85rem;
+		font-size: 0.95rem;
+		font-weight: 600;
 		color: var(--ink-strong);
 		letter-spacing: 0.01em;
 	}
 
 	.brand-meta {
-		font-size: 0.54rem;
+		font-size: 0.58rem;
 		color: var(--muted-soft);
 	}
 
@@ -102,20 +91,11 @@ import { site } from '../../consts/site';
 		flex-wrap: wrap;
 	}
 
-	/* ── Level badge ── */
+	/* Header controls */
 	.header-right {
 		display: flex;
 		align-items: center;
 		gap: 0.6rem;
-	}
-
-	.lv-badge {
-		display: inline-flex;
-		align-items: center;
-		padding: 0.35rem 0.65rem;
-		border: var(--border-w) solid var(--tag-border);
-		border-radius: 999px;
-		background: var(--tag-bg);
 	}
 
 	@media (max-width: 720px) {
@@ -140,10 +120,6 @@ import { site } from '../../consts/site';
 		.nav {
 			grid-column: 1 / -1;
 			grid-row: 2;
-		}
-
-		.lv-badge {
-			display: none;
 		}
 	}
 </style>

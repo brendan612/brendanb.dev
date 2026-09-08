@@ -1,159 +1,76 @@
 ---
 import Header from '../components/site/Header.astro';
 import Footer from '../components/site/Footer.astro';
+import CursorTrail from '../components/site/CursorTrail.astro';
 import { site } from '../consts/site';
+import { accents, defaultAccent } from '../consts/themes';
 import '../styles/global.css';
-
-interface Props {
-	title?: string;
-	description?: string;
-}
-
-const {
-	title = `${site.name} — Portfolio`,
-	description = site.description,
-} = Astro.props;
+interface Props { title?: string; description?: string; }
+const { title = `${site.name} — Portfolio`, description = site.description } = Astro.props;
 ---
-
 <!doctype html>
 <html lang="en">
-	<head>
-		<script is:inline>
-			(() => {
-				const key = 'theme';
-				const saved = localStorage.getItem(key);
-				const theme = saved === 'light' || saved === 'dark' ? saved : 'dark';
-				document.documentElement.dataset.theme = theme;
-			})();
-		</script>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="generator" content={Astro.generator} />
-		<meta name="description" content={description} />
-		<link rel="icon" href="/favicon.ico" />
-		<title>{title}</title>
-	</head>
-	<body>
-		<!-- Atmosphere: warm wash + CRT scanlines + vignette -->
-		<div class="bg-wash" aria-hidden="true"></div>
-		<div class="scanlines" aria-hidden="true"></div>
-		<div class="vignette" aria-hidden="true"></div>
-
-		<Header />
-		<main>
-			<slot />
-		</main>
-		<Footer />
-
-		<script>
-			// ── Scroll-triggered reveals ──
-			const revealEls = document.querySelectorAll('.reveal');
-			if (revealEls.length) {
-				const io = new IntersectionObserver(
-					(entries) => {
-						for (const entry of entries) {
-							if (entry.isIntersecting) {
-								entry.target.classList.add('is-visible');
-								io.unobserve(entry.target);
-							}
-						}
-					},
-					{ threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
-				);
-				revealEls.forEach((el) => io.observe(el));
-			}
-
-			// ── Konami code → cheat activated ──
-			const CODE = [
-				'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
-				'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
-				'b', 'a',
-			];
-			let progress = 0;
-
-			const cheer = () => {
-				const colors = ['#d97441', '#f0915f', '#6dcf90', '#ece4d3'];
-				for (let i = 0; i < 48; i++) {
-					const bit = document.createElement('div');
-					bit.className = 'confetti-bit';
-					bit.style.left = `${Math.random() * 100}vw`;
-					bit.style.background = colors[i % colors.length];
-					bit.style.setProperty('--fall-time', `${1.1 + Math.random() * 1.4}s`);
-					bit.style.animationDelay = `${Math.random() * 350}ms`;
-					document.body.appendChild(bit);
-					setTimeout(() => bit.remove(), 3200);
-				}
-
-				const toast = document.createElement('div');
-				toast.className = 'cheat-toast';
-				toast.setAttribute('role', 'status');
-				toast.textContent = '★ Cheat activated — thanks for playing';
-				document.body.appendChild(toast);
-				setTimeout(() => toast.remove(), 2800);
-			};
-
-			document.addEventListener('keydown', (e) => {
-				const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
-				progress = key === CODE[progress] ? progress + 1 : key === CODE[0] ? 1 : 0;
-				if (progress === CODE.length) {
-					progress = 0;
-					cheer();
-				}
-			});
-		</script>
-	</body>
+ <head>
+  <script is:inline define:vars={{ accentIds: accents.map(({ id }) => id), defaultAccent }}>
+   const root = document.documentElement;
+   root.dataset.theme = 'dark';
+   root.dataset.accent = defaultAccent;
+   try {
+    root.dataset.theme = localStorage.getItem('theme') === 'light' ? 'light' : 'dark';
+    const savedAccent = localStorage.getItem('accent');
+    if (accentIds.includes(savedAccent)) root.dataset.accent = savedAccent;
+   } catch { /* Defaults remain usable when storage is unavailable. */ }
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="generator" content={Astro.generator} />
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <title>{title}</title>
+ </head>
+ <body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="background-grid" aria-hidden="true"></div>
+  <CursorTrail />
+  <Header />
+  <main id="main"><slot /></main>
+  <Footer />
+  <script>
+   const code = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+   let progress = 0;
+   let celebrating = false;
+   document.addEventListener('keydown', (event) => {
+    if ((event.target as HTMLElement)?.closest('input, textarea, select, [contenteditable]')) return;
+    const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
+    progress = key === code[progress] ? progress + 1 : key === code[0] ? 1 : 0;
+    if (progress !== code.length || celebrating) return;
+    progress = 0;
+    celebrating = true;
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+     const palette = ['var(--accent)', 'var(--ok)', 'var(--ink-strong)'];
+     for (let i = 0; i < 24; i++) {
+      const bit = document.createElement('div');
+      bit.className = 'confetti-bit';
+      bit.style.left = `${Math.random() * 100}vw`;
+      bit.style.background = palette[i % palette.length];
+      bit.style.setProperty('--fall-time', `${1.1 + Math.random()}s`);
+      document.body.appendChild(bit);
+      setTimeout(() => bit.remove(), 2400);
+     }
+    }
+    const toast = document.createElement('div');
+    toast.className = 'cheat-toast';
+    toast.setAttribute('role', 'status');
+    toast.textContent = 'You found a little surprise. Thanks for visiting!';
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.remove(); celebrating = false; }, 3000);
+   });
+  </script>
+ </body>
 </html>
-
 <style>
-	.bg-wash {
-		position: fixed;
-		inset: 0;
-		pointer-events: none;
-		z-index: -3;
-		background:
-			radial-gradient(60% 42% at 50% 0%, color-mix(in oklab, var(--accent-soft) 20%, transparent), transparent 72%),
-			var(--bg);
-	}
-
-	/* CRT scanlines — barely there */
-	.scanlines {
-		position: fixed;
-		inset: 0;
-		pointer-events: none;
-		z-index: 9998;
-		background: repeating-linear-gradient(
-			to bottom,
-			transparent 0,
-			transparent 2px,
-			rgba(0, 0, 0, 0.05) 2px,
-			rgba(0, 0, 0, 0.05) 3px
-		);
-		opacity: 0.5;
-		mix-blend-mode: overlay;
-	}
-
-	:root[data-theme='light'] .scanlines {
-		opacity: 0.25;
-	}
-
-	.vignette {
-		position: fixed;
-		inset: 0;
-		pointer-events: none;
-		z-index: -2;
-		background: radial-gradient(120% 100% at 50% 45%, transparent 60%, color-mix(in oklab, var(--bg) 70%, black) 130%);
-		opacity: 0.55;
-	}
-
-	main {
-		animation: mainReveal 550ms var(--ease-out-expo) both;
-		min-height: 60vh;
-		position: relative;
-		z-index: 1;
-	}
-
-	@keyframes mainReveal {
-		from { opacity: 0; transform: translateY(8px); }
-		to { opacity: 1; transform: translateY(0); }
-	}
+ .background-grid { position:fixed; inset:0; z-index:-2; pointer-events:none; background-image:radial-gradient(var(--line-strong) .65px,transparent .65px); background-size:24px 24px; opacity:.3; mask-image:linear-gradient(to bottom,black,transparent 85%); }
+ main { min-height:60vh; }
+ .skip-link { position:fixed; top:1rem; left:1rem; z-index:200; transform:translateY(-200%); padding:.6rem 1rem; background:var(--bg-elev); color:var(--accent); border:1px solid var(--accent); border-radius:6px; }
+ .skip-link:focus { transform:none; }
 </style>

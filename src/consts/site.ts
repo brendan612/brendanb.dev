@@ -8,6 +8,5 @@ export const site = {
 	role: 'Software Engineer II',
 	location: 'Vancouver, WA',
 	employer: 'Treske Precision Machining',
-	age: 27,
 	grewUp: 'Wisconsin',
 };

@@ -6,7 +6,7 @@ import { site } from '../../consts/site';
 export async function getStaticPaths() {
 	const projects = await getCollection('projects');
 	return projects.map((project) => ({
-		params: { slug: project.slug },
+		params: { slug: project.id },
 		props: { project },
 	}));
 }
@@ -15,9 +15,9 @@ const { project } = Astro.props;
 const { Content } = await render(project);
 
 const QUEST_LABEL: Record<string, string> = {
-	live: 'quest complete',
-	'in-progress': 'quest active',
-	archived: 'quest retired',
+	live: 'Live',
+	'in-progress': 'In progress',
+	archived: 'Archived',
 };
 ---
 
@@ -27,7 +27,7 @@ const QUEST_LABEL: Record<string, string> = {
 		<p class="back-row animate-fade-up animate-delay-1">
 			<a class="back" href="/projects">
 				<span class="back-arrow" aria-hidden="true">◀</span>
-				<span class="hud-label">Back to save files</span>
+				<span class="hud-label">Back to projects</span>
 			</a>
 		</p>
 
@@ -38,7 +38,7 @@ const QUEST_LABEL: Record<string, string> = {
 					{QUEST_LABEL[project.data.status]}
 				</span>
 				<span class="quest-date hud-label">
-					saved {project.data.date.toLocaleDateString('en-US', {
+					{project.data.date.toLocaleDateString('en-US', {
 						month: 'short',
 						year: 'numeric',
 					})}
@@ -61,7 +61,7 @@ const QUEST_LABEL: Record<string, string> = {
 			<div class="links animate-fade-up animate-delay-3">
 				{project.data.liveUrl && (
 					<a href={project.data.liveUrl} target="_blank" rel="noreferrer" class="btn btn-primary">
-						Play live
+						Visit site
 						<span class="arrow" aria-hidden="true">↗</span>
 					</a>
 				)}
@@ -144,8 +144,9 @@ const QUEST_LABEL: Record<string, string> = {
 	.quest-title {
 		font-family: var(--font-display);
 		font-size: clamp(2rem, 1.4rem + 3.2vw, 4rem);
-		font-weight: 400;
-		line-height: 1.02;
+		font-weight: 550;
+		line-height: 1.1;
+		letter-spacing: -.04em;
 		color: var(--ink-strong);
 		margin: 0;
 	}
@@ -202,7 +203,7 @@ const QUEST_LABEL: Record<string, string> = {
 	.content :global(h2),
 	.content :global(h3) {
 		font-family: var(--font-display);
-		font-weight: 400;
+		font-weight: 550;
 		line-height: 1.1;
 		margin-top: var(--space-10);
 		margin-bottom: var(--space-3);

@@ -1,101 +1,94 @@
+﻿---
+import { accents } from '../../consts/themes';
 ---
----
 
-<button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light mode">
-	<span class="icon-wrap">
-		<span class="icon moon" data-theme-icon-moon aria-hidden="true">
-			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-				<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-			</svg>
-		</span>
-		<span class="icon sun" data-theme-icon-sun aria-hidden="true">
-			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-				<circle cx="12" cy="12" r="4.5"/>
-				<line x1="12" y1="2.5" x2="12" y2="4.5"/>
-				<line x1="12" y1="19.5" x2="12" y2="21.5"/>
-				<line x1="4.5" y1="4.5" x2="5.9" y2="5.9"/>
-				<line x1="18.1" y1="18.1" x2="19.5" y2="19.5"/>
-				<line x1="2.5" y1="12" x2="4.5" y2="12"/>
-				<line x1="19.5" y1="12" x2="21.5" y2="12"/>
-				<line x1="4.5" y1="19.5" x2="5.9" y2="18.1"/>
-				<line x1="18.1" y1="5.9" x2="19.5" y2="4.5"/>
-			</svg>
-		</span>
-	</span>
-</button>
+<details class="theme-picker" data-theme-picker>
+ <summary class="theme-trigger" aria-label="Customize theme" title="Customize theme">
+  <span class="theme-gem" aria-hidden="true"></span>
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m3 4.5 3 3 3-3" stroke="currentColor" stroke-width="1.5" /></svg>
+ </summary>
+ <div class="theme-panel">
+  <p class="panel-title">Make yourself at home.</p>
+  <fieldset>
+   <legend>Appearance</legend>
+   <div class="mode-options">
+    <label class="choice"><input type="radio" name="appearance" value="dark" checked /><span>Dark</span></label>
+    <label class="choice"><input type="radio" name="appearance" value="light" /><span>Light</span></label>
+   </div>
+  </fieldset>
+  <fieldset>
+   <legend>Accent color</legend>
+   <div class="accent-options">
+    {accents.map((accent) => (
+     <label class="choice">
+      <input type="radio" name="accent" value={accent.id} checked={accent.id === 'ember'} />
+      <span><i class="swatch" style={`--swatch: ${accent.color}`} aria-hidden="true"></i>{accent.name}</span>
+     </label>
+    ))}
+   </div>
+  </fieldset>
+  <p class="theme-note">Your settings, saved for next time.</p>
+ </div>
+</details>
 
-<script is:inline>
-	(() => {
-		const key = 'theme';
-		const button = document.querySelector('[data-theme-toggle]');
-		const moonIcon = document.querySelector('[data-theme-icon-moon]');
-		const sunIcon = document.querySelector('[data-theme-icon-sun]');
-		if (!button || !moonIcon || !sunIcon) return;
-
-		const setUi = (theme) => {
-			const isDark = theme !== 'light';
-			button.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
-			moonIcon.toggleAttribute('hidden', !isDark);
-			sunIcon.toggleAttribute('hidden', isDark);
-		};
-
-		const current = document.documentElement.dataset.theme || 'dark';
-		setUi(current);
-
-		button.addEventListener('click', () => {
-			const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
-			document.documentElement.dataset.theme = next;
-			localStorage.setItem(key, next);
-			setUi(next);
-		});
-	})();
+<script>
+ import { accents } from '../../consts/themes';
+ const picker = document.querySelector<HTMLDetailsElement>('[data-theme-picker]');
+ if (picker) {
+  const root = document.documentElement;
+  const inputs = picker.querySelectorAll<HTMLInputElement>('input[type="radio"]');
+  const sync = () => inputs.forEach((input) => {
+   input.checked = input.value === (input.name === 'appearance' ? root.dataset.theme : root.dataset.accent);
+  });
+  const close = () => { picker.open = false; };
+  sync();
+  picker.addEventListener('change', (event) => {
+   const input = event.target;
+   if (!(input instanceof HTMLInputElement) || !input.checked) return;
+   let key: 'theme' | 'accent';
+   if (input.name === 'appearance' && ['light', 'dark'].includes(input.value)) {
+    key = 'theme';
+   } else if (input.name === 'accent' && accents.some((accent) => accent.id === input.value)) {
+    key = 'accent';
+   } else return;
+   root.dataset[key] = input.value;
+   try { localStorage.setItem(key, input.value); } catch { /* Settings still apply for this page. */ }
+   sync();
+  });
+  document.addEventListener('pointerdown', (event) => {
+   if (event.target instanceof Node && !picker.contains(event.target)) close();
+  });
+  picker.addEventListener('keydown', (event) => {
+   if (event.key === 'Escape' && picker.open) {
+    event.preventDefault();
+    close();
+    picker.querySelector('summary')?.focus();
+   }
+  });
+  picker.addEventListener('focusout', (event) => {
+   if (event.relatedTarget instanceof Node && !picker.contains(event.relatedTarget)) close();
+  });
+ }
 </script>
 
 <style>
-	.theme-toggle {
-		display: inline-grid;
-		place-items: center;
-		width: 2.2rem;
-		height: 2.2rem;
-		background: var(--surface);
-		border: var(--border-w) solid var(--line-strong);
-		border-radius: var(--radius-xs);
-		box-shadow: 0 3px 0 var(--chunk-shadow);
-		color: var(--muted);
-		transition:
-			color var(--transition-fast),
-			border-color var(--transition-fast),
-			transform var(--transition-bounce),
-			box-shadow var(--transition-bounce);
-	}
-
-	.theme-toggle:hover,
-	.theme-toggle:focus-visible {
-		color: var(--accent-strong);
-		border-color: color-mix(in oklab, var(--accent) 50%, var(--line-strong));
-		transform: translateY(-1px);
-		box-shadow: 0 4px 0 var(--chunk-shadow);
-	}
-
-	.theme-toggle:active {
-		transform: translateY(2px);
-		box-shadow: 0 0 0 var(--chunk-shadow);
-	}
-
-	.icon-wrap {
-		display: inline-grid;
-		place-items: center;
-		width: 16px;
-		height: 16px;
-	}
-
-	.icon {
-		display: inline-flex;
-		line-height: 1;
-		grid-area: 1 / 1;
-	}
-
-	.icon[hidden] {
-		display: none;
-	}
+ .theme-picker { position:relative; }
+ .theme-trigger { display:flex; align-items:center; justify-content:center; gap:.6rem; min-width:3.5rem; min-height:44px; padding:.6rem; list-style:none; border:1px solid var(--line-strong); border-radius:var(--radius-sm); color:var(--muted); background:var(--surface); cursor:pointer; transition:border-color var(--transition-fast); }
+ .theme-trigger::-webkit-details-marker { display:none; }
+ .theme-trigger:hover,.theme-picker[open] .theme-trigger { border-color:var(--accent); color:var(--ink-strong); }
+ .theme-gem { display:block; width:13px; height:13px; background:var(--accent); clip-path:polygon(25% 0,75% 0,100% 25%,100% 65%,50% 100%,0 65%,0 25%); }
+ .theme-panel { position:absolute; top:calc(100% + .7rem); right:0; width:272px; max-width:calc(100vw - 2.5rem); padding:1.25rem; background:var(--bg-elev); border:1px solid var(--line-strong); border-radius:var(--radius-md); box-shadow:var(--shadow-soft); }
+ .panel-title { color:var(--ink-strong); font-size:.85rem; font-weight:550; margin-bottom:1.2rem; }
+ fieldset { border:0; min-width:0; margin:0 0 1rem; padding:0; }
+ legend { color:var(--muted); font: .64rem var(--font-mono); padding:0; margin-bottom:.6rem; }
+ .mode-options,.accent-options { display:grid; grid-template-columns:1fr 1fr; gap:.45rem; }
+ .choice { position:relative; cursor:pointer; }
+ .choice input { position:absolute; width:1px; height:1px; opacity:0; }
+ .choice > span { display:flex; align-items:center; justify-content:center; gap:.5rem; min-height:40px; padding:.45rem .6rem; border:1px solid var(--line); border-radius:6px; font-size:.74rem; color:var(--muted); }
+ .accent-options .choice > span { justify-content:flex-start; }
+ .choice:hover > span { color:var(--ink-strong); border-color:var(--line-strong); }
+ .choice input:checked + span { color:var(--accent-strong); border-color:var(--accent); background:var(--accent-soft); }
+ .choice input:focus-visible + span { outline:2px solid var(--accent); outline-offset:3px; }
+ .swatch { width:9px; height:9px; flex-shrink:0; border-radius:2px; background:var(--swatch); }
+ .theme-note { font-size:.65rem; line-height:1.6; color:var(--muted-soft); }
 </style>

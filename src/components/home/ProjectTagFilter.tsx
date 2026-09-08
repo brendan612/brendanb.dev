@@ -16,9 +16,9 @@ type Props = {
 };
 
 const QUEST_LABEL: Record<Project['status'], string> = {
-	live: 'quest complete',
-	'in-progress': 'quest active',
-	archived: 'quest retired',
+	live: 'Live',
+	'in-progress': 'In progress',
+	archived: 'Archived',
 };
 
 export default function ProjectTagFilter({ projects }: Props) {
@@ -58,22 +58,18 @@ export default function ProjectTagFilter({ projects }: Props) {
 
 			{/* Quest cards */}
 			{filtered.length > 0 ? (
-				<div className={styles.grid}>
-					{filtered.map((project, i) => {
-						const isLarge = i === 0;
+				<div className={styles.grid} aria-live="polite">
+					{filtered.map((project) => {
+
 						return (
 							<article
 								key={project.title}
-								className={`${styles.card} ${isLarge ? styles.cardLarge : ''}`}
+								className={styles.card}
 							>
-								{isLarge && (
-									<span className={styles.featuredTab} aria-hidden="true">
-										★ featured
-									</span>
-								)}
+
 
 								<div className={styles.head}>
-									<span className={styles.questType}>side quest</span>
+									<span className={styles.questType}>{project.tags[0]}</span>
 									<span
 										className={styles.statusBadge}
 										data-status={project.status}
@@ -82,7 +78,7 @@ export default function ProjectTagFilter({ projects }: Props) {
 									</span>
 								</div>
 
-								<h3 className={styles.title}>{project.title}</h3>
+								<h3 className={styles.title}><a href={project.href}>{project.title}</a></h3>
 								<p className={styles.summary}>{project.summary}</p>
 
 								<div className={styles.lootRow}>
@@ -101,7 +97,7 @@ export default function ProjectTagFilter({ projects }: Props) {
 										className={`${styles.link} ${styles.linkPrimary}`}
 										href={project.href}
 									>
-										Open quest
+										View project
 									</a>
 									{project.liveUrl && (
 										<a
@@ -110,7 +106,7 @@ export default function ProjectTagFilter({ projects }: Props) {
 											target="_blank"
 											rel="noreferrer"
 										>
-											Play live
+											Visit site
 										</a>
 									)}
 									{project.repoUrl && (
@@ -130,7 +126,7 @@ export default function ProjectTagFilter({ projects }: Props) {
 				</div>
 			) : (
 				<div className={styles.empty}>
-					No quests tagged “{activeTag}” yet — pick another filter.
+					No projects tagged “{activeTag}” yet — pick another filter.
 				</div>
 			)}
 		</div>

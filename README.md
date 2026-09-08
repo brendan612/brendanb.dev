@@ -4,7 +4,7 @@ Personal website built with Astro + Bun.
 
 ## Stack
 
-- Astro 5
+- Astro 7
 - Bun runtime/package manager
 - Astro Content Collections for project content
 - React island for lightweight homepage interactivity
@@ -31,3 +31,9 @@ bun run preview
 ## Content
 
 Project entries live in `src/content/projects/*.md`.
+
+## Design
+
+Palette and typography live in `src/styles/tokens.css`. The background cursor trail
+lives in `src/components/site/CursorTrail.astro`; it runs only for mouse input,
+respects reduced motion, and stops animating when the trail fades.

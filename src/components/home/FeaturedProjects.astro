@@ -14,18 +14,19 @@ const normalized = projects.map((entry) => ({
 	status: entry.data.status,
 	repoUrl: entry.data.repoUrl,
 	liveUrl: entry.data.liveUrl,
-	href: `/projects/${entry.slug}/`,
+	href: `/projects/${entry.id}/`,
 }));
 ---
 
-<section class="container projects reveal">
+<section id="selected-projects" class="container projects reveal">
 	<header class="head">
-		<p class="hud-label is-accent">Quest log</p>
-		<h2 class="section-title">Side <span class="accent">quests</span></h2>
+		<p class="hud-label is-accent">Personal projects</p>
+		<h2 class="section-title">Selected <span class="accent">work</span></h2>
 		<p class="lede">
-			The after-hours builds — games, tools, and experiments. The main quest
-			(day job) lives on the <a class="head-link" href="/about">character sheet</a>.
+			Games, useful tools, and the occasional “what if?”
+			A few things I’ve been making after hours.
 		</p>
+			<a class="head-link" href="/projects">All projects <span aria-hidden="true">↗</span></a>
 	</header>
 	<ProjectTagFilter client:idle projects={normalized} />
 </section>
@@ -33,6 +34,7 @@ const normalized = projects.map((entry) => ({
 <style>
 	.projects {
 		padding: var(--space-16) 0 var(--space-8);
+		scroll-margin-top: 7rem;
 	}
 
 	.head {
@@ -44,6 +46,8 @@ const normalized = projects.map((entry) => ({
 
 	.head-link {
 		color: var(--accent-strong);
+		font-size: .82rem;
+		width: fit-content;
 		text-decoration: underline;
 		text-decoration-thickness: 2px;
 		text-decoration-color: color-mix(in oklab, var(--accent) 40%, transparent);

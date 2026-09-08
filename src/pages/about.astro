@@ -6,49 +6,33 @@ import { site } from '../consts/site';
 <BaseLayout title={`${site.name} | About`}>
 	<section class="container about-section">
 		<header class="page-head animate-fade-up animate-delay-1">
-			<p class="hud-label is-accent">Character sheet</p>
+			<p class="hud-label is-accent">About me</p>
 			<h1 class="section-title">
-				Meet the <span class="accent">player</span>
+				A little <span class="accent">backstory.</span>
 			</h1>
 		</header>
 
 		<div class="sheet">
 			<!-- Character card -->
-			<aside class="char panel animate-fade-up animate-delay-2" aria-label="Character stats">
+			<aside class="char panel animate-fade-up animate-delay-2" aria-label="Profile">
 				<div class="char-portrait" aria-hidden="true">
-					<svg width="72" height="72" viewBox="0 0 16 16">
-						<!-- pixel character -->
-						<rect x="5" y="1" width="6" height="2" fill="#7a5138"/>
-						<rect x="4" y="2" width="8" height="2" fill="#7a5138"/>
-						<rect x="4" y="4" width="8" height="4" fill="#e8b48c"/>
-						<rect x="5" y="5" width="2" height="2" fill="#1a1c1d"/>
-						<rect x="9" y="5" width="2" height="2" fill="#1a1c1d"/>
-						<rect x="3" y="8" width="10" height="5" fill="var(--accent)"/>
-						<rect x="3" y="8" width="2" height="4" fill="var(--accent-deep)"/>
-						<rect x="11" y="8" width="2" height="4" fill="var(--accent-deep)"/>
-						<rect x="5" y="13" width="2" height="2" fill="#2c3236"/>
-						<rect x="9" y="13" width="2" height="2" fill="#2c3236"/>
-					</svg>
+					<img src="/logo.png" width="104" height="104" alt="" />
 				</div>
 
 				<h2 class="char-name">{site.name}</h2>
-				<p class="char-class hud-label is-accent">Class: Engineer</p>
+				<p class="char-class hud-label is-accent">Software engineer</p>
 
 				<dl class="char-stats">
 					<div class="stat">
-						<dt class="hud-label">Level</dt>
-						<dd>{site.age}</dd>
-					</div>
-					<div class="stat">
-						<dt class="hud-label">Guild</dt>
+						<dt class="hud-label">Day job</dt>
 						<dd>{site.employer}</dd>
 					</div>
 					<div class="stat">
-						<dt class="hud-label">Server</dt>
+						<dt class="hud-label">Based in</dt>
 						<dd>{site.location}</dd>
 					</div>
 					<div class="stat">
-						<dt class="hud-label">Spawn point</dt>
+						<dt class="hud-label">Originally from</dt>
 						<dd>{site.grewUp}</dd>
 					</div>
 				</dl>
@@ -56,7 +40,7 @@ import { site } from '../consts/site';
 
 			<!-- Lore -->
 			<div class="lore animate-fade-up animate-delay-3">
-				<h2 class="lore-title hud-label">Lore</h2>
+				<h2 class="lore-title hud-label">Hello, I’m Brendan</h2>
 				<p class="lore-lead">
 					I'm {site.name} — a {site.role} living in {site.location}, currently
 					building software at <strong>{site.employer}</strong>.
@@ -68,24 +52,24 @@ import { site } from '../consts/site';
 					problem: fast, clear, and fun to use.
 				</p>
 				<p class="muted lore-body">
-					Off the clock you'll find me shipping side quests — an idle game, a
-					daily puzzle, streaming tools — anything that's an excuse to build
-					something new.
+					Outside of work, I’m building a game, a password manager, and a
+					personal finance app. I enjoy trying new ideas and turning them
+					into things people can use.
 				</p>
 			</div>
 		</div>
 	</section>
 
-	<!-- Active questline — main quest is the day job -->
+	<!-- What I care about — main quest is the day job -->
 	<section class="container quests-section reveal">
 		<header class="quests-head">
-			<p class="hud-label is-accent">Active questline</p>
-			<h2 class="section-title">Current <span class="accent">objectives</span></h2>
+			<p class="hud-label is-accent">What I care about</p>
+			<h2 class="section-title">Built with <span class="accent">intention.</span></h2>
 		</header>
 
 		<ul class="quests">
 			<li class="quest panel">
-				<span class="quest-kind hud-label is-accent">◆ Main quest</span>
+				<span class="quest-kind hud-label is-accent">At work</span>
 				<h3 class="quest-title">Production software</h3>
 				<p class="muted">
 					Build and maintain reliable software at {site.employer} — the work
@@ -93,7 +77,7 @@ import { site } from '../consts/site';
 				</p>
 			</li>
 			<li class="quest panel">
-				<span class="quest-kind hud-label">◇ Side quest</span>
+				<span class="quest-kind hud-label">On the web</span>
 				<h3 class="quest-title">Frontend architecture</h3>
 				<p class="muted">
 					Modern, lightweight frontends with Astro — fast by default and
@@ -101,7 +85,7 @@ import { site } from '../consts/site';
 				</p>
 			</li>
 			<li class="quest panel">
-				<span class="quest-kind hud-label">○ Daily</span>
+				<span class="quest-kind hud-label">In the details</span>
 				<h3 class="quest-title">Design engineering</h3>
 				<p class="muted">
 					Interfaces with performance, clarity, and a little personality —
@@ -148,15 +132,15 @@ import { site } from '../consts/site';
 		height: 6.5rem;
 		border: var(--border-w) solid var(--line-strong);
 		border-radius: var(--radius-md);
-		background: var(--bg);
+		background: #151923;
 		margin-bottom: var(--space-4);
-		image-rendering: pixelated;
+		overflow: hidden;
 	}
 
 	.char-name {
 		font-family: var(--font-display);
 		font-size: 1.3rem;
-		font-weight: 400;
+		font-weight: 550;
 		color: var(--ink-strong);
 		line-height: 1.1;
 	}
@@ -167,7 +151,7 @@ import { site } from '../consts/site';
 
 	.char-stats {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: 1fr;
 		gap: 0.6rem;
 		width: 100%;
 		margin-top: var(--space-6);
@@ -250,7 +234,7 @@ import { site } from '../consts/site';
 	}
 
 	.quest:hover {
-		transform: translateY(-3px);
+		transform: translateY(-1px);
 		border-color: color-mix(in oklab, var(--accent) 45%, var(--line-strong));
 		box-shadow: 0 calc(var(--chunk) + 3px) 0 var(--chunk-shadow);
 	}
@@ -263,7 +247,7 @@ import { site } from '../consts/site';
 	.quest-title {
 		font-family: var(--font-display);
 		font-size: 1.15rem;
-		font-weight: 400;
+		font-weight: 550;
 		line-height: 1.15;
 		color: var(--ink-strong);
 		margin-bottom: var(--space-2);
