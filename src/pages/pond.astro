@@ -1,0 +1,86 @@
+---
+import { getCollection } from 'astro:content';
+import { site } from '../consts/site';
+import '@fontsource-variable/geist';
+import '../styles/pond-experiment.css';
+const projects = (await getCollection('projects')).sort((a,b) => b.data.date.valueOf()-a.data.date.valueOf());
+---
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <meta name="description" content="An experimental, explorable pond garden by Brendan Bishop." />
+  <title>Pond experiment | {site.name}</title>
+  <link rel="icon" href="/logo.png" />
+ </head>
+ <body>
+  <main class="pond-app">
+   <canvas id="garden" tabindex="0" aria-label="3D pond garden. Use WASD or arrow keys to walk, drag to look, and click the wooden signs. Information is also available in the buttons below."></canvas>
+   <header class="topbar">
+    <a class="back" href="/">← Back to portfolio</a>
+    <span class="experiment">Brendan Bishop <span>/ Pond experiment</span></span>
+   </header>
+   <div class="scene-intro" id="scene-status" role="status"><h1>A little pond.</h1><p>Walk around. Stop at a sign.</p><span id="loading">Preparing the garden…</span></div>
+   <p id="scene-error" class="scene-error" hidden>The 3D view couldn't start in this browser. You can still read everything using the buttons below, or return to the portfolio.</p>
+   <div class="bottom-bar">
+    <p class="instructions"><span class="desktop-help"><kbd>W A S D</kbd> to walk</span><span>Drag to look · Click a sign</span></p>
+    <nav class="info-nav" aria-label="Garden information">
+     <button data-open="about">About</button><button data-open="projects">Projects</button><button data-open="contact">Contact</button>
+    </nav>
+    <div class="view-actions"><button id="motion-toggle" aria-pressed="false">Pause pond</button><button id="reset-view">Reset view ↺</button></div>
+   </div>
+   <div class="walk-pad" aria-label="Walk controls">
+    <button data-walk="forward" aria-label="Walk forward">↑</button>
+    <button data-walk="left" aria-label="Walk left">←</button>
+    <button data-walk="back" aria-label="Walk backward">↓</button>
+    <button data-walk="right" aria-label="Walk right">→</button>
+   </div>
+   <span class="sign-hint" id="sign-hint" hidden>Click to read</span>
+  </main>
+  <dialog id="info-dialog" aria-labelledby="panel-title">
+   <div class="dialog-head"><p>By the pond</p><button id="close-dialog" aria-label="Close information">✕</button></div>
+   <h2 id="panel-title">About</h2>
+   <section data-panel="about">
+    <p class="panel-lead">I'm {site.name}, a software engineer based in {site.location}.</p>
+    <p>I build software at {site.employer}. My personal projects include web apps, tools, and an idle game.</p>
+    <a class="panel-link" href="/about/">More about me ↗</a>
+   </section>
+   <section data-panel="projects" hidden>
+    <p>A few things I've been building.</p>
+    <ul class="project-list">{projects.map(project => <li><a href={`/projects/${project.id}/`}><span>{project.data.title}</span><span aria-hidden="true">↗</span></a><p>{project.data.summary}</p></li>)}</ul>
+   </section>
+   <section data-panel="contact" hidden>
+    <p class="panel-lead">Have a project in mind?</p>
+    <p>Email me if you'd like to work together or ask about something I've built.</p>
+    <a class="panel-link" href={`mailto:${site.email}`}>{site.email} ↗</a>
+    <a class="panel-link" href={site.github} target="_blank" rel="noreferrer">GitHub ↗</a>
+   </section>
+  </dialog>
+  <noscript><div class="no-script">This experiment needs JavaScript. <a href="/">Visit the portfolio</a> for all the same information.</div></noscript>
+  <script>
+   import { createGarden, type SignId } from '../scripts/pond-garden';
+   const dialog = document.querySelector<HTMLDialogElement>('#info-dialog')!;
+   let returnFocus: HTMLElement | null = null;
+   const open = (id: SignId) => {
+    returnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    document.querySelector('#panel-title')!.textContent = id.charAt(0).toUpperCase()+id.slice(1);
+    document.querySelectorAll<HTMLElement>('[data-panel]').forEach(panel => panel.hidden = panel.dataset.panel !== id);
+    if (!dialog.open) dialog.showModal();
+   };
+   document.querySelectorAll<HTMLButtonElement>('[data-open]').forEach(button => button.addEventListener('click', () => open(button.dataset.open as SignId)));
+   document.querySelector('#close-dialog')!.addEventListener('click', () => dialog.close());
+   dialog.addEventListener('click', event => { if (event.target === dialog) { const r=dialog.getBoundingClientRect(); if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close(); } });
+   dialog.addEventListener('close', () => returnFocus?.focus());
+   try {
+    createGarden(document.querySelector<HTMLCanvasElement>('#garden')!, open, () => dialog.open);
+    document.querySelector('#loading')!.remove();
+   } catch (error) {
+    console.error('Pond experiment could not start:', error);
+    document.querySelector<HTMLElement>('#scene-error')!.hidden = false;
+    document.querySelector('#loading')!.textContent = 'The garden is unavailable.';
+   }
+  </script>
+ </body>
+</html>

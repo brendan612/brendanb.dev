@@ -5,7 +5,7 @@ import { site } from '../consts/site';
 
 <BaseLayout title={`${site.name} | Contact`}>
 	<section class="container section">
-		<header class="page-head animate-fade-up animate-delay-1">
+		<header class="page-head">
 			<p class="hud-label is-accent">Contact</p>
 			<h1 class="section-title">
 				Let’s <span class="accent">talk.</span>
@@ -20,7 +20,7 @@ import { site } from '../consts/site';
 			<!-- Primary: the invite -->
 			<a
 				href={`mailto:${site.email}`}
-				class="invite panel animate-fade-up animate-delay-2"
+				class="invite panel"
 			>
 				<span class="invite-head">
 					<span class="hud-label">Send me a message</span>
@@ -47,7 +47,7 @@ import { site } from '../consts/site';
 			</a>
 
 			<!-- Friend codes -->
-			<div class="codes animate-fade-up animate-delay-3">
+			<div class="codes">
 				<a href={site.github} target="_blank" rel="noreferrer" class="code panel">
 					<span class="code-key hud-label">GitHub</span>
 					<span class="code-val">@brendan612</span>

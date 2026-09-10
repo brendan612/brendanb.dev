@@ -5,7 +5,7 @@ import { site } from '../consts/site';
 
 <BaseLayout title={`${site.name} | About`}>
 	<section class="container about-section">
-		<header class="page-head animate-fade-up animate-delay-1">
+		<header class="page-head">
 			<p class="hud-label is-accent">About me</p>
 			<h1 class="section-title">
 				A little <span class="accent">backstory.</span>
@@ -14,7 +14,7 @@ import { site } from '../consts/site';
 
 		<div class="sheet">
 			<!-- Character card -->
-			<aside class="char panel animate-fade-up animate-delay-2" aria-label="Profile">
+			<aside class="char panel" aria-label="Profile">
 				<div class="char-portrait" aria-hidden="true">
 					<img src="/logo.png" width="104" height="104" alt="" />
 				</div>
@@ -39,7 +39,7 @@ import { site } from '../consts/site';
 			</aside>
 
 			<!-- Lore -->
-			<div class="lore animate-fade-up animate-delay-3">
+			<div class="lore">
 				<h2 class="lore-title hud-label">Hello, I’m Brendan</h2>
 				<p class="lore-lead">
 					I'm {site.name} — a {site.role} living in {site.location}, currently

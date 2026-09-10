@@ -19,7 +19,7 @@ const QUEST_LABEL: Record<string, string> = {
 	description="Projects, games, and experiments by Brendan Bishop."
 >
 	<section class="container section">
-		<header class="page-head animate-fade-up animate-delay-1">
+		<header class="page-head">
 			<p class="hud-label is-accent">Project library</p>
 			<h1 class="section-title">
 				Things I’ve <span class="accent">made.</span>
@@ -31,10 +31,9 @@ const QUEST_LABEL: Record<string, string> = {
 
 		<ol class="slots">
 			{
-				projects.map((entry, i) => (
+				projects.map((entry) => (
 					<li
-						class="slot-wrap animate-fade-up"
-						style={`animation-delay: ${200 + i * 80}ms`}
+						class="slot-wrap"
 					>
 						<a href={`/projects/${entry.id}/`} class="slot panel">
 

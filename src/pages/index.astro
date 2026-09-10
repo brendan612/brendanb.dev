@@ -9,23 +9,4 @@ const featuredProjects = (await getCollection('projects')).filter((entry) => ent
 <BaseLayout title={`${site.name} | Home`}>
  <Hero />
  <FeaturedProjects projects={featuredProjects} />
- <section class="container cta-section">
-  <div class="cta">
-   <div>
-    <p class="hud-label is-accent">Let’s work together</p>
-    <h2 class="section-title">Let’s make <span class="accent">something good.</span></h2>
-    <p class="lede">Have a project in mind or a question about my work? Say hello.</p>
-   </div>
-   <a class="btn btn-ghost" href={`mailto:${site.email}`}>Get in touch <span class="arrow" aria-hidden="true">↗</span></a>
-  </div>
- </section>
 </BaseLayout>
-<style>
- .cta-section { padding-top:4rem; }
- .cta { display:flex; justify-content:space-between; align-items:center; gap:2rem; border-top:1px solid var(--line); padding:3rem 0 1rem; }
- .cta .hud-label { margin-bottom:.8rem; }
- .cta .section-title { font-size:clamp(1.6rem,2.4vw,2.3rem); }
- .cta .lede { font-size:.9rem; }
- .cta .btn { flex-shrink:0; }
- @media(max-width:760px) { .cta { align-items:flex-start; flex-direction:column; } }
-</style>

@@ -1,6 +1,6 @@
 ---
 title: "League of Paris"
-summary: "A custom site I built for a friend who streams on Twitch, with a style tuned to their creator brand."
+summary: "A website I built for a friend who streams on Twitch."
 date: "2026-02-07"
 tags: ["Twitch", "Web Design", "Frontend"]
 featured: true

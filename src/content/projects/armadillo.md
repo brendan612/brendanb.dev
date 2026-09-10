@@ -1,6 +1,6 @@
 ---
 title: "Armadillo"
-summary: "A cross-platform password vault with encrypted sync, quick unlock, and a home for all your credentials."
+summary: "A password manager for web, Windows, and Android with encrypted sync and quick unlock."
 date: "2026-02-09"
 tags: ["Password Manager", "Electron", "Android"]
 featured: true

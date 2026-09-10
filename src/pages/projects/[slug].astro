@@ -24,7 +24,7 @@ const QUEST_LABEL: Record<string, string> = {
 <BaseLayout title={`${project.data.title} | ${site.name}`}>
 	<article class="container article">
 		<!-- Back link -->
-		<p class="back-row animate-fade-up animate-delay-1">
+		<p class="back-row">
 			<a class="back" href="/projects">
 				<span class="back-arrow" aria-hidden="true">◀</span>
 				<span class="hud-label">Back to projects</span>
@@ -32,7 +32,7 @@ const QUEST_LABEL: Record<string, string> = {
 		</p>
 
 		<!-- Quest header -->
-		<header class="quest-head animate-fade-up animate-delay-2">
+		<header class="quest-head">
 			<div class="head-row">
 				<span class="status" data-status={project.data.status}>
 					{QUEST_LABEL[project.data.status]}
@@ -58,7 +58,7 @@ const QUEST_LABEL: Record<string, string> = {
 
 		<!-- Links -->
 		{(project.data.liveUrl || project.data.repoUrl) && (
-			<div class="links animate-fade-up animate-delay-3">
+			<div class="links">
 				{project.data.liveUrl && (
 					<a href={project.data.liveUrl} target="_blank" rel="noreferrer" class="btn btn-primary">
 						Visit site
@@ -75,7 +75,7 @@ const QUEST_LABEL: Record<string, string> = {
 		)}
 
 		<!-- Content -->
-		<div class="content animate-fade-up animate-delay-4">
+		<div class="content">
 			<Content />
 		</div>
 	</article>

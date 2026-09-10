@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import ProjectTagFilter from './ProjectTagFilter';
+import ProjectGrid from './ProjectGrid';
+import { site } from '../../consts/site';
 
 interface Props {
 	projects: CollectionEntry<'projects'>[];
@@ -23,39 +24,21 @@ const normalized = projects.map((entry) => ({
 		<p class="hud-label is-accent">Personal projects</p>
 		<h2 class="section-title">Selected <span class="accent">work</span></h2>
 		<p class="lede">
-			Games, useful tools, and the occasional “what if?”
-			A few things I’ve been making after hours.
+			A mix of websites, apps, and games I've built. Some are live; others are still in progress.
 		</p>
 			<a class="head-link" href="/projects">All projects <span aria-hidden="true">↗</span></a>
 	</header>
-	<ProjectTagFilter client:idle projects={normalized} />
+	<ProjectGrid projects={normalized} email={site.email} />
 </section>
 
 <style>
-	.projects {
-		padding: var(--space-16) 0 var(--space-8);
-		scroll-margin-top: 7rem;
-	}
-
-	.head {
-		display: flex;
-		flex-direction: column;
-		gap: 0.55rem;
-		margin-bottom: var(--space-8);
-	}
-
-	.head-link {
-		color: var(--accent-strong);
-		font-size: .82rem;
-		width: fit-content;
-		text-decoration: underline;
-		text-decoration-thickness: 2px;
-		text-decoration-color: color-mix(in oklab, var(--accent) 40%, transparent);
-		text-underline-offset: 0.2em;
-		transition: text-decoration-color var(--transition-fast);
-	}
-
-	.head-link:hover {
-		text-decoration-color: var(--accent);
-	}
+ .projects { display:grid; grid-template-columns:1fr 2fr; gap:3rem; padding-block:2.25rem 1rem; border-top:1px solid var(--line-strong); scroll-margin-top:7rem; }
+ .head { display:flex; flex-direction:column; align-items:flex-start; gap:.6rem; }
+ .head .hud-label { font-size:.65rem; }
+ .head .section-title { font-size:clamp(2rem,3vw,2.65rem); white-space:nowrap; margin-bottom:.15rem; }
+ .head .lede { font-size:.86rem; line-height:1.75; max-width:35ch; }
+ .head-link { color:var(--accent); font:.73rem var(--font-mono); padding-block:.8rem .4rem; margin-top:.6rem; border-bottom:1px solid var(--accent); }
+ .head-link:hover { color:var(--ink-strong); }
+ @media(max-width:1100px) { .projects { grid-template-columns:1fr 2fr; gap:2rem; } }
+ @media(max-width:900px) { .projects { grid-template-columns:1fr; gap:2rem; } .head .lede { max-width:56ch; } }
 </style>

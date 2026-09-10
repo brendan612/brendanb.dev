@@ -1,6 +1,6 @@
 ---
 title: "brendanb.dev"
-summary: "My personal website, sharing the software I build with a playful design and interactive details."
+summary: "My personal website, built with Astro to share my projects and a bit about me."
 date: "2026-02-07"
 tags: ["Astro", "Bun", "Design System"]
 featured: true

@@ -2,19 +2,19 @@
 import { site } from '../../consts/site';
 ---
 <section class="hero container">
- <div class="intro animate-fade-up">
-  <p class="eyebrow hud-label"><span aria-hidden="true">✦</span> Software engineer & creative problem solver</p>
-  <h1>Brendan<br /><span>Bishop<span class="name-dot">.</span></span></h1>
-  <p class="tagline">Useful by day.<br />A little more playful after hours.</p>
-  <p class="description">I build web apps, games, and tools that make life a little better. Based in {site.location}.</p>
+ <div class="intro">
+  <p class="eyebrow hud-label"><span aria-hidden="true">✦</span> Software engineer</p>
+  <h1 aria-label="Brendan Bishop"><span class="first-name">Brendan</span><span class="surname">Bishop<span class="name-dot">.</span></span></h1>
+  <p class="tagline">I build web apps, games, and tools.</p>
+  <p class="description">I'm a software engineer based in {site.location}. Here are some of the projects I'm working on.</p>
   <div class="actions">
-   <a href="/projects" class="btn btn-primary"><span class="play" aria-hidden="true">▶</span> Explore my projects</a>
+   <a href="/projects" class="btn btn-primary"><span class="play" aria-hidden="true">▶</span> View my projects</a>
    <a href="/about" class="about-link">About me <span aria-hidden="true">↗</span></a>
   </div>
  </div>
- <aside class="overworld animate-fade-up animate-delay-2" aria-label="Current side project">
-  <div class="map-header"><span class="hud-label">Somewhere after hours</span><span class="map-star" aria-hidden="true">✧</span></div>
-  <svg class="world" viewBox="0 0 320 260" fill="none" aria-hidden="true" shape-rendering="crispEdges">
+ <aside class="overworld" aria-label="Current side project">
+  <img class="world" src="/design/cutout-22-8583d62761f5.png" width="710" height="534" alt="" />
+  <svg class="world world-vector" viewBox="0 0 320 260" fill="none" aria-hidden="true" shape-rendering="crispEdges">
    <!-- A tiny overworld: stepping stones lead to the next build. -->
    <g fill="var(--line)"><path d="M40 190h16v4H40zm230-144h4v4h-4zM75 62h4v4h-4zm185 162h4v4h-4zM42 125h4v4h-4zm178-97h4v4h-4z"/><path d="M80 171h16v4H80zm132 42h20v4h-20zM54 79h12v4H54z"/></g>
    <path d="M80 154h20v-18h40v-18h72v18h30v20h22v38h-24v18H108v-16H80z" fill="var(--surface-strong)"/>
@@ -28,49 +28,55 @@ import { site } from '../../consts/site';
    <path d="M134 156h8v8h-8z" fill="var(--ink-strong)"/><path d="M131 165h14v10h-14z" fill="var(--accent)"/><path d="M132 175h4v5h-4zm8 0h4v5h-4z" fill="var(--ink-strong)"/>
    <path d="M169 45h4v4h4v4h-4v4h-4v-4h-4v-4h4z" fill="var(--accent)" opacity=".7"/>
   </svg>
+  <div class="project-note">
+  <p class="hud-label">What I'm working on</p>
   <a class="current-project" href="/projects/idle-game/">
    <span class="current-label"><span class="status" data-status="in-progress">Currently building</span><strong>Untitled Idle Game</strong></span>
    <span class="current-arrow" aria-hidden="true">↗</span>
   </a>
+  </div>
  </aside>
- <div class="hero-bottom"><span class="hud-label">A small corner of the internet. Made for exploring.</span><a href="#selected-projects" class="scroll-link">See my work <span aria-hidden="true">↓</span></a></div>
 </section>
 <style>
- .hero { padding-top:clamp(3rem,7vw,6.5rem); display:grid; grid-template-columns:1.3fr 1fr; align-items:center; gap:2rem 4rem; }
- .eyebrow { margin-bottom:1.6rem; font-size:.66rem; letter-spacing:.06em; }
+ .hero { display:grid; grid-template-columns: .95fr 1.15fr; align-items:center; gap:3rem; padding-block:2rem 2.6rem; }
+ .eyebrow { margin-bottom:1.1rem; font-size:.66rem; letter-spacing:.06em; }
  .eyebrow span { color:var(--accent); margin-right:.4rem; }
- h1 { color:var(--ink-strong); font-size:clamp(3.5rem,6.6vw,5.8rem); line-height:1.04; letter-spacing:-.065em; font-weight:550; }
- h1 > span { font-family:var(--font-pixel); font-size:.82em; font-weight:400; letter-spacing:-.06em; color:var(--accent); }
+ h1 { display:flex; flex-direction:column; align-items:flex-start; gap:.02em; color:var(--ink-strong); font-family:var(--font-display); font-size:clamp(3.5rem,6.6vw,5.8rem); line-height:1.04; letter-spacing:-.065em; font-weight:550; }
+ .first-name { display:block; }
+ .surname { display:block; color:var(--accent); }
  .name-dot { color:var(--ok); }
- .tagline { margin-top:1.7rem; color:var(--ink-strong); font-size:clamp(1.2rem,1.7vw,1.5rem); line-height:1.45; letter-spacing:-.025em; }
- .description { color:var(--muted); max-width:43ch; margin-top:.85rem; font-size:.98rem; line-height:1.8; }
- .actions { display:flex; flex-wrap:wrap; align-items:center; gap:1.5rem; margin-top:1.8rem; }
+ .tagline { margin-top:1.4rem; color:var(--ink-strong); font-size:clamp(1.2rem,1.7vw,1.5rem); line-height:1.45; letter-spacing:-.025em; }
+ .description { color:var(--muted); max-width:46ch; margin-top:.85rem; font-size:.98rem; line-height:1.7; }
+ .actions { display:flex; flex-wrap:wrap; align-items:center; gap:1.8rem; margin-top:1.7rem; }
  .play { font-size:.6rem; }
- .about-link { font-size:.83rem; color:var(--muted); }
+ .about-link { font-size:.83rem; color:var(--muted); padding-block:.7rem; }
  .about-link span { margin-left:.4rem; color:var(--accent); }
  .about-link:hover { color:var(--ink-strong); }
- .overworld { border:1px solid var(--line); border-radius:16px; background:color-mix(in srgb,var(--bg-elev) 80%,transparent); margin-top:1rem; overflow:hidden; }
- .map-header { display:flex; justify-content:space-between; align-items:center; padding:1.2rem 1.5rem 0; }
- .map-header .hud-label { font-size:.58rem; }
- .map-star { color:var(--accent); font-size:1.15rem; }
- .world { display:block; width:100%; height:auto; max-height:310px; }
- .current-project { display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--line); padding:1.1rem 1.5rem; background:var(--bg-elev); transition:background var(--transition-fast); }
- .current-label { display:flex; flex-direction:column; gap:.25rem; }
- .current-label strong { color:var(--ink-strong); font-size:.95rem; font-weight:500; }
- .current-arrow { color:var(--muted); }
- .current-project:hover { background:var(--surface); }
- .current-project:hover .current-arrow { color:var(--accent); }
- .hero-bottom { grid-column:1 / -1; display:flex; justify-content:space-between; gap:1rem; padding:2rem 0 1.8rem; margin-top:2rem; border-bottom:1px solid var(--line); }
- .hero-bottom .hud-label { font-size:.59rem; text-transform:none; letter-spacing:0; }
- .scroll-link { font:.65rem var(--font-mono); color:var(--muted); }
- .scroll-link span { color:var(--accent); margin-left:.6rem; }
- @media (max-width:760px) {
-  .hero { grid-template-columns:1fr; gap:2.5rem; padding-top:3rem; }
-  h1 { font-size:clamp(3.2rem,12vw,5rem); }
-  .overworld { margin:0; width:100%; }
-  .world { max-height:230px; }
-  .hero-bottom { margin:0; padding-top:0; }
-  .hero-bottom > .hud-label { max-width:25ch; }
-  .scroll-link { align-self:center; white-space:nowrap; }
+ .overworld { display:grid; grid-template-columns:1.65fr 1fr; gap:2rem; align-items:center; min-width:0; }
+ .world { width:100%; height:auto; }
+ .world-vector { display:none; }
+ :global(html[data-theme='light']) .world:not(.world-vector), :global(html[data-accent]:not([data-accent='ember'])) .world:not(.world-vector) { display:none; }
+ :global(html[data-theme='light']) .world-vector, :global(html[data-accent]:not([data-accent='ember'])) .world-vector { display:block; }
+ .project-note { margin-top:5rem; }
+ .project-note > .hud-label { font-size:.62rem; letter-spacing:.035em; padding-bottom:.9rem; border-bottom:1px solid var(--line-strong); }
+ .current-project { display:flex; align-items:center; justify-content:space-between; gap:.65rem; padding-block:1rem; }
+ .current-label { display:flex; flex-direction:column; gap:.4rem; }
+ .current-label .status { font-size:.6rem; }
+ .current-label strong { color:var(--ink-strong); font-size:.9rem; font-weight:550; }
+ .current-arrow { color:var(--accent); }
+ .current-project:hover strong { color:var(--accent); }
+ @media (max-width:1100px) {
+  .hero { grid-template-columns:1.15fr 1fr; gap:2rem; }
+  .overworld { grid-template-columns:1fr; gap:.5rem; }
+  .world { max-width:19rem; margin-inline:auto; }
+  .project-note { margin:0; max-width:19rem; width:100%; justify-self:center; }
  }
+ @media (max-width:720px) {
+  .hero { grid-template-columns:1fr; padding-top:2.5rem; gap:2.5rem; }
+  h1 { font-size:clamp(2.75rem,13vw,4.5rem); }
+  .actions { gap:.5rem 1.25rem; }
+  .overworld { grid-template-columns:1.25fr 1fr; gap:1.25rem; }
+  .project-note { margin:0; }
+ }
+ @media (max-width:380px) { .overworld { grid-template-columns:1fr; } .world { max-width:14rem; } }
 </style>

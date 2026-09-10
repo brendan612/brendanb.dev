@@ -3,7 +3,7 @@
 @import '@fontsource/jetbrains-mono/400.css';
 @import './tokens.css';
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
-html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+html { scroll-behavior:smooth; scrollbar-gutter:stable; background:var(--bg); -webkit-text-size-adjust:100%; }
 body { min-height:100dvh; background:var(--bg); color:var(--ink); font:400 1rem/1.65 var(--font-body); -webkit-font-smoothing:antialiased; isolation:isolate; }
 a { color:inherit; text-decoration:none; }
 img { max-width:100%; display:block; }
@@ -32,9 +32,6 @@ button { font:inherit; cursor:pointer; border:none; background:none; color:inher
 .btn .arrow { transition:transform var(--transition-fast); }
 .btn:hover .arrow { transform:translate(2px,-2px); }
 .panel { border:1px solid var(--line); border-radius:var(--radius-md); background:var(--bg-elev); }
-.animate-fade-up { animation:fadeUp 550ms var(--ease-out-expo) both; }
-.animate-delay-1 { animation-delay:40ms; } .animate-delay-2 { animation-delay:100ms; } .animate-delay-3 { animation-delay:160ms; } .animate-delay-4 { animation-delay:220ms; } .animate-delay-5 { animation-delay:280ms; }
-@keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
 /* The page remains readable without JavaScript. */
 .reveal { opacity:1; }
 .confetti-bit { position:fixed; top:-12px; width:6px; height:6px; z-index:1000; pointer-events:none; animation:confettiFall var(--fall-time,1.6s) linear forwards; }

@@ -5,6 +5,9 @@ import CursorTrail from '../components/site/CursorTrail.astro';
 import { site } from '../consts/site';
 import { accents, defaultAccent } from '../consts/themes';
 import '../styles/global.css';
+import geistFont from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
+import monoFont from '@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2?url';
+import pixelFont from '@fontsource/silkscreen/files/silkscreen-latin-400-normal.woff2?url';
 interface Props { title?: string; description?: string; }
 const { title = `${site.name} — Portfolio`, description = site.description } = Astro.props;
 ---
@@ -25,12 +28,14 @@ const { title = `${site.name} — Portfolio`, description = site.description } =
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="generator" content={Astro.generator} />
   <meta name="description" content={description} />
+  <link rel="preload" href={geistFont} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href={monoFont} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href={pixelFont} as="font" type="font/woff2" crossorigin />
   <link rel="icon" type="image/png" href="/logo.png" />
   <title>{title}</title>
  </head>
  <body>
   <a class="skip-link" href="#main">Skip to content</a>
-  <div class="background-grid" aria-hidden="true"></div>
   <CursorTrail />
   <Header />
   <main id="main"><slot /></main>
@@ -69,8 +74,8 @@ const { title = `${site.name} — Portfolio`, description = site.description } =
  </body>
 </html>
 <style>
- .background-grid { position:fixed; inset:0; z-index:-2; pointer-events:none; background-image:radial-gradient(var(--line-strong) .65px,transparent .65px); background-size:24px 24px; opacity:.3; mask-image:linear-gradient(to bottom,black,transparent 85%); }
- main { min-height:60vh; }
+ main { position:relative; z-index:1; min-height:60vh; }
+ :global(.footer) { position:relative; z-index:1; }
  .skip-link { position:fixed; top:1rem; left:1rem; z-index:200; transform:translateY(-200%); padding:.6rem 1rem; background:var(--bg-elev); color:var(--accent); border:1px solid var(--accent); border-radius:6px; }
  .skip-link:focus { transform:none; }
 </style>

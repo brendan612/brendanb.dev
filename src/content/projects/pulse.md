@@ -1,6 +1,6 @@
 ---
 title: "Pulse"
-summary: "A personal dashboard for spending, budgets, health logs, and meal planning. Built to stay useful on your phone."
+summary: "A mobile-friendly dashboard for tracking spending, budgets, health logs, and meal plans."
 date: "2026-08-11"
 tags: ["Next.js", "Convex", "Plaid"]
 featured: true

@@ -17,10 +17,12 @@
     "@fontsource/silkscreen": "^5.3.0",
     "astro": "^7.3.2",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "three": "^0.186.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@types/three": "^0.185.4",
     "typescript": "^5.9.3"
   }
 }
